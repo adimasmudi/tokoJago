@@ -9,20 +9,23 @@
           <div class="card card-primary card-outline">
             <div class="card-body box-profile">
 
-              <h3 class="profile-username text-center">Nama supplier</h3>
+              <h3 class="profile-username text-center">{{$supplier->nama}}</h3>
 
-              <p class="text-muted text-center">Email</p>
-              <p>No Telepon</p>
-              <p>Alamat</p>
-              <p>Deskripsi</p>
+              <p class="text-muted text-center">Email : {{$supplier->email}}</p>
+              <p>No Telepon : {{$supplier->no_telp}}</p>
+              <p>Alamat : {{$supplier->alamat}}</p>
+              <p>Deskripsi : {{$supplier->deskripsi}}</p>
 
               <div class="d-flex flex-row">
-                <a href="/admin/supplier/edit" class="btn btn-warning mx-2">
+                <a href="/admin/supplier/edit/{{$supplier->id}}" class="btn btn-warning mx-2">
                   <i class="fas fa-edit"></i> edit
                 </a>
-                <a href="#" class="btn btn-danger" id="delete" data-redirect="supplier" data-url="supplier/delete" data-id="">
-                  <i class="fas fa-trash"></i>
-                </a>
+                <form method="POST"
+                    action="/admin/supplier/delete/{{$supplier->id}}">
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-danger mx-2"><i class="fas fa-trash"></i></button>
+                </form>
               </div>
             </div>
             <!-- /.card-body -->

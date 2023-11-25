@@ -70,8 +70,12 @@ Route::group(['prefix' => 'admin'], function(){
     Route::group(['prefix' => 'supplier'], function(){
         Route::get('/', [SupplierController::class,'index']);
         Route::get('/create', [SupplierController::class, 'create']);
-        Route::get('/detail', [SupplierController::class, 'show']);
-        Route::get('/edit', [SupplierController::class, 'edit']);
+        Route::get('/detail/{id}', [SupplierController::class, 'show']);
+        Route::get('/edit/{id}', [SupplierController::class, 'edit']);
+
+        Route::post('/save', [SupplierController::class,'save']);
+        Route::post('/update/{id}', [SupplierController::class,'update']);
+        Route::delete('/delete/{id}', [SupplierController::class,'delete']);
 
         Route::group(['prefix' => 'suplaiBarang'], function(){
             Route::get('/', [SupplierController::class, 'createSuplaiBarangSupplier']);

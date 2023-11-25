@@ -11,31 +11,31 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form method="POST" action="/admin/supplier/update" enctype="multipart/form-data">
+            <form method="POST" action="/admin/supplier/update/{{$supplier->id}}" enctype="multipart/form-data">
               @csrf
               <div class="card-body d-flex flex-row justify-content-between">
                 <div>
                   <div class="form-group">
-                    <label for="nama_supplier">Nama Supplier</label>
-                    <input type="text" class="form-control" id="nama_supplier" name="nama_supplier" placeholder="Masukkan Nama Supplier">
+                    <label for="nama">Nama Supplier</label>
+                    <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Supplier" value="{{$supplier->nama}}">
                   </div>
                   <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="text" class="form-control" id="email" name="email" placeholder="Masukkan Nama Email">
+                    <input type="text" class="form-control" id="email" name="email" placeholder="Masukkan Nama Email" value="{{$supplier->email}}">
                   </div>
                   <div class="form-group">
                     <label for="alamat">alamat</label>
-                    <textarea name="alamat" id="alamat" class="form-control" cols="30" rows="10" name="alamat"></textarea>
+                    <textarea name="alamat" id="alamat" class="form-control" cols="30" rows="10" name="alamat">{{$supplier->alamat}}</textarea>
                   </div>
                 </div>
                 <div>
                   <div class="form-group">
                     <label for="no_telepon">No Telepon</label>
-                    <input type="text" class="form-control" id="no_telepon" name="no_telepon" placeholder="No Telepon">
+                    <input type="text" class="form-control" id="no_telepon" name="no_telepon" placeholder="No Telepon" value="{{$supplier->no_telp}}">
                   </div>
                   <div class="form-group">
                     <label for="deskripsi">Deskripsi</label><br>
-                    <textarea name="deskripsi" id="deskripsi" class="form-control" cols="30" rows="10" name="deskripsi"></textarea>
+                    <textarea name="deskripsi" id="deskripsi" class="form-control" cols="30" rows="10" name="deskripsi">{{$supplier->deskripsi}}</textarea>
                   </div>
 
                   
