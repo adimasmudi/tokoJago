@@ -33,8 +33,12 @@ Route::group(['prefix' => 'admin'], function(){
     Route::group(['prefix' => 'gudang'], function(){
         Route::get('/', [GudangController::class,'index']);
         Route::get('/create', [GudangController::class, 'create']);
-        Route::get('/detail', [GudangController::class, 'show']);
-        Route::get('/edit', [GudangController::class, 'edit']);
+        Route::get('/detail/{id}', [GudangController::class, 'show']);
+        Route::get('/edit/{id}', [GudangController::class, 'edit']);
+
+        Route::post('/save', [GudangController::class,'save']);
+        Route::post('/update/{id}', [GudangController::class,'update']);
+        Route::delete('/delete/{id}', [GudangController::class,'delete']);
 
         Route::group(['prefix' => 'barangGudang'], function(){
             Route::get('/edit', [GudangController::class, 'editBarangGudang']);

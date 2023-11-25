@@ -9,19 +9,22 @@
           <div class="card card-primary card-outline">
             <div class="card-body box-profile">
 
-              <h3 class="profile-username text-center">Nama Gudang</h3>
+              <h3 class="profile-username text-center">{{$gudang->nama}}</h3>
 
-              <p class="text-muted text-center">Kapasitas</p>
+              <p class="text-muted text-center">Kapasitas Gudang : {{$gudang->kapasitas}}</p>
 
-              <p>Lokasi</p>
+              <p>Lokasi : {{$gudang->lokasi}}</p>
 
               <div class="d-flex flex-row">
-                <a href="/admin/gudang/edit" class="btn btn-warning mx-2">
+                <a href="/admin/gudang/edit/{{$gudang->id}}" class="btn btn-warning mx-2">
                   <i class="fas fa-edit"></i> edit
                 </a>
-                <a href="#" class="btn btn-danger" id="delete" data-redirect="gudang" data-url="gudang/delete" data-id="">
-                  <i class="fas fa-trash"></i>
-                </a>
+                <form method="POST"
+                    action="/admin/gudang/delete/{{$gudang->id}}">
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-danger mx-2"><i class="fas fa-trash"></i></button>
+                </form>
               </div>
             </div>
             <!-- /.card-body -->
@@ -45,7 +48,7 @@
               <div class="tab-content">
                 <!-- /.tab-pane -->
                 <div class="active tab-pane" id="deskripsi">
-                 deskripsi
+                 {{$gudang->deskripsi}}
                 </div>
                 <div class="tab-pane" id="barangGudang">
                     <h4>Tabel Barang di Gudang</h4>
