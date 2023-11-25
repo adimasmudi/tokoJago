@@ -48,8 +48,12 @@ Route::group(['prefix' => 'admin'], function(){
     Route::group(['prefix' => 'toko'], function(){
         Route::get('/', [TokoController::class,'index']);
         Route::get('/create', [TokoController::class, 'create']);
-        Route::get('/detail', [TokoController::class, 'show']);
-        Route::get('/edit', [TokoController::class, 'edit']);
+        Route::get('/detail/{id}', [TokoController::class, 'show']);
+        Route::get('/edit/{id}', [TokoController::class, 'edit']);
+
+        Route::post('/save', [TokoController::class,'save']);
+        Route::post('/update/{id}', [TokoController::class,'update']);
+        Route::delete('/delete/{id}', [TokoController::class,'delete']);
 
         Route::group(['prefix' => 'suplaiBarangToko'], function(){
             Route::get('/', [TokoController::class, 'createSuplaiBarangToko']);
