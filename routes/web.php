@@ -86,7 +86,11 @@ Route::group(['prefix' => 'admin'], function(){
     Route::group(['prefix' => 'barang'], function(){
         Route::get('/', [BarangController::class,'index']);
         Route::get('/create', [BarangController::class, 'create']);
-        Route::get('/detail', [BarangController::class, 'show']);
-        Route::get('/edit', [BarangController::class, 'edit']);
+        Route::get('/detail/{id}', [BarangController::class, 'show']);
+        Route::get('/edit/{id}', [BarangController::class, 'edit']);
+
+        Route::post('/save', [BarangController::class,'save']);
+        Route::post('/update/{id}', [BarangController::class,'update']);
+        Route::delete('/delete/{id}', [BarangController::class,'delete']);
     });
 });

@@ -15,8 +15,8 @@
               @csrf
               <div class="card-body">
                   <div class="form-group">
-                    <label for="nama_barang">Nama Barang</label>
-                    <input type="text" class="form-control" id="nama_barang" name="nama_barang" placeholder="Masukkan Nama Barang">
+                    <label for="nama">Nama Barang</label>
+                    <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Barang">
                   </div>
                   <div class="form-group">
                     <label for="harga">harga</label>

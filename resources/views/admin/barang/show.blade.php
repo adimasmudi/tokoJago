@@ -9,17 +9,20 @@
           <div class="card card-primary card-outline">
             <div class="card-body box-profile">
 
-              <h3 class="profile-username text-center">Nama barang</h3>
+              <h3 class="profile-username text-center">{{$barang->nama}}</h3>
 
-              <p class="text-muted text-center">Harga</p>
+              <p class="text-muted text-center">Harga : {{$barang->harga}}</p>
 
               <div class="d-flex flex-row">
-                <a href="/admin/barang/edit" class="btn btn-warning mx-2">
+                <a href="/admin/barang/edit/{{$barang->id}}" class="btn btn-warning mx-2">
                   <i class="fas fa-edit"></i> edit
                 </a>
-                <a href="#" class="btn btn-danger" id="delete" data-redirect="barang" data-url="barang/delete" data-id="">
-                  <i class="fas fa-trash"></i>
-                </a>
+                <form method="POST"
+                    action="/admin/barang/delete/{{$barang->id}}">
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-danger mx-2"><i class="fas fa-trash"></i></button>
+                </form>
               </div>
             </div>
             <!-- /.card-body -->
