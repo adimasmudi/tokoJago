@@ -11,16 +11,16 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form method="POST" action="/admin/toko/update" enctype="multipart/form-data">
+            <form method="POST" action="/admin/toko/update/{{$toko->id}}" enctype="multipart/form-data">
               @csrf
               <div class="card-body">
                   <div class="form-group">
-                    <label for="nama_toko">Nama Toko</label>
-                    <input type="text" class="form-control" id="nama_toko" name="nama_toko" placeholder="Masukkan Nama Toko">
+                    <label for="nama">Nama Toko</label>
+                    <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Toko" value="{{$toko->nama}}">
                   </div>
                   <div class="form-group">
                     <label for="alamat">alamat</label>
-                    <textarea name="alamat" id="alamat" class="form-control" cols="30" rows="10" name="alamat"></textarea>
+                    <textarea name="alamat" id="alamat" class="form-control" cols="30" rows="10" name="alamat">{{$toko->alamat}}</textarea>
                   </div>
               </div>
               <!-- /.card-body -->

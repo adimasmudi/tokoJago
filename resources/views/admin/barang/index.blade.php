@@ -21,25 +21,37 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Televisi</td>
-                        <td>1000000</td>
-                        <td>
-                        <a href="/admin/barang/detail" class="btn btn-primary mx-2">
-                          detail
-                        </a>
-                        <a href="/admin/barang/edit" class="btn btn-warning mx-2">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <a href="#" class="btn btn-danger" id="delete" data-redirect="barang" data-url="barang/delete" data-id="">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                        </td>
-                    </tr>
+                    @if($barangs)
+                      @foreach($barangs as $barang)
+                        <tr>
+                          <td>{{$barang->id}}</td>
+                          <td>{{$barang->nama}}</td>
+                          <td>{{$barang->harga}}</td>
+                          <td>
+                            <div class="d-flex flex-row">
+                              <a href="/admin/barang/detail/{{$barang->id}}" class="btn btn-primary mx-2">
+                                detail
+                              </a>
+                              <a href="/admin/barang/edit/{{$barang->id}}" class="btn btn-warning mx-2">
+                                  <i class="fas fa-edit"></i>
+                              </a>
+                              <form method="POST"
+                                  action="/admin/barang/delete/{{$barang->id}}">
+                                  @csrf
+                                  @method('DELETE')
+                                  <button class="btn btn-danger mx-2"><i class="fas fa-trash"></i></button>
+                              </form>
+                            </div>
+                          </td>
+                        </tr>
+                      @endforeach
+                    @endif
                     
                   </tbody>
                 </table>
+              </div>
+              <div>
+                {{$barangs->links()}}
               </div>
               
             </div>
