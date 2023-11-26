@@ -3,7 +3,7 @@
   <section class="content">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-9">
 
           <!-- Profile Image -->
           <div class="card card-primary card-outline">
@@ -17,6 +17,7 @@
               <label for="option1">Walk in</label>
               <input type="radio" name="options" id="option2">
               <label for="option2">Member</label>
+
               <div id="hiddenList">
               <table class="table table-bordered">
                 <thead>
@@ -33,41 +34,28 @@
                         <td>Customer 1</td>
                         <td>2654742354</td>
                         <td>
-                            <a href="/kasir/order/bayar" class="btn btn-warning mx-2">
-                                <i class="fas fa-edit"></i>
-                            </a>
+                          <input type="radio" id="customer" name="pembeli" value="#nama">
                         </td>
                     </tr>
                             
                 </tbody>
               </table>
               </div>
-              <script src="scripts.js"></script>
+              <script src="../js/scripts.js"></script>
             </div>
-            <!-- /.card-body -->
           </div>
-          <!-- /.card -->
-
-          <!-- About Me Box -->
-
-          <!-- /.card -->
-        </div>
-        <!-- /.col -->
-        <div class="col-md-9">
           <div class="card">
             <div class="card-header p-2">
               <p class="text-muted text-center">Harga Total :</p>
 
             </div><!-- /.card-header -->
+            
+
             <div class="card-body">
-              <div class="tab-content">
-                <!-- /.tab-pane -->
-                <div class="active tab-pane" id="deskripsi">
-                 deskripsi
-                </div>
-                <div class="tab-pane" id="barangGudang">
+              <div>
+                <div id="pembayaran">
                     <h4>Form pembayaran</h4>
-                  <form method="POST" action="/kasir/customer/update" enctype="multipart/form-data">
+                  <form method="POST" action="/kasir/order/bayar" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body d-flex flex-row justify-content-between">
                       <div>
@@ -82,7 +70,7 @@
                       <div>
                         <div class="form-group">
                           <label for="jumlah_bayar">Jumlah Bayar</label>
-                          <input type="disabled" class="form-control" id="jumlah_bayar" name="jumlah_bayar" placeholder="######" value="######">
+                          <input type="disabled" class="form-control" id="jumlah_bayar" name="jumlah_bayar" value="######">
                         </div>
                       </div>
                     </div>

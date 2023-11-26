@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <a href="tambah.blade.php" class="btn btn-primary w-25 mb-3">Tambah</a>
+          <a href="../kasir/customer/tambah" class="btn btn-primary w-25 mb-3">Tambah</a>
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">Tabel Customer</h3>
@@ -29,7 +29,7 @@
                         <a href="/kasir/customer/edit" class="btn btn-primary mx-2">
                           edit
                         </a>
-                        </td>
+
                         <a href="#" class="btn btn-danger" id="delete" data-redirect="customer" data-url="customer/delete" data-id="">
                             <i class="fas fa-trash"></i>
                         </a>

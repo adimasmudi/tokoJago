@@ -4,7 +4,7 @@
       <!-- Add icons to the links using the .nav-icon class
            with font-awesome or any other icon font library -->
       <li class="nav-item">
-        <a href="/admin" class="{{$currentActive == 'admin' ? 'nav-link active' : 'nav-link'}}">
+        <a href="/kasir" class="{{$currentActive == 'kasir' ? 'nav-link active' : 'nav-link'}}">
           <i class="nav-icon fas fa-tachometer-alt"></i>
           <p>
             Dashboard
@@ -12,7 +12,7 @@
         </a>
       </li>
       <-- <li class="nav-item">
-        <a href="/admin/produk" class="{{$currentActive == 'category' ? 'nav-link active' : 'nav-link'}}">
+        <a href="/kasir/produk" class="{{$currentActive == 'produk' ? 'nav-link active' : 'nav-link'}}">
           <i class="nav-icon fas fa-filter"></i>
           <p>
             produk
@@ -20,7 +20,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="/admin/order" class="{{$currentActive == 'wisata' ? 'nav-link active' : 'nav-link'}}">
+        <a href="/kasir/order" class="{{$currentActive == 'order' ? 'nav-link active' : 'nav-link'}}">
           <i class="nav-icon fas fa-tree"></i>
           <p>
             order
@@ -28,7 +28,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="/admin/customer" class="{{$currentActive == 'hotel' ? 'nav-link active' : 'nav-link'}}">
+        <a href="/kasir/customer" class="{{$currentActive == 'customer' ? 'nav-link active' : 'nav-link'}}">
           <i class="nav-icon fas fa-hotel"></i>
           <p>
             customer
@@ -36,7 +36,7 @@
         </a>
       </li>
       <li class="nav-item">
-          <form class="inline" method="POST" action="/admin/logout">
+          <form class="inline" method="POST" action="/kasir/logout">
             @csrf
             <button type="submit" class="nav-link bg-danger shadow-none">
                 <i class="fas fa-left"></i>

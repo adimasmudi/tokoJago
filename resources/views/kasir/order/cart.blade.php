@@ -9,7 +9,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <form method="POST" action="/kasir/order/tambah" enctype="multipart/form-data">
+              <form method="GET" action="/kasir/order/pembayaran" enctype="multipart/form-data">
               @csrf
                 <label for="search">Search:</label>
                 <input type="text" name="search" id="search">

@@ -1,5 +1,7 @@
 @php
   $currentUrls = explode("/",url()->full());
+  $typeUser = $currentUrls[3];
+
   if(sizeof($currentUrls) <= 5){
     $currentUrl = end($currentUrls);
   }else{
@@ -34,10 +36,11 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-      
-
-
-        <x-sidebar :currentActive="$currentActive"/>
+        @if($typeUser == "admin")
+          <x-sidebarAdmin :currentActive="$currentActive"/>
+        @else
+          <x-sidebarKasir :currentActive="$currentActive"/>
+        @endif
     </div>
     <!-- /.sidebar -->
   </aside>
