@@ -4,7 +4,6 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-3">
-
           <!-- Profile Image -->
           <div class="card card-primary card-outline">
             <div class="card-body box-profile">
@@ -50,24 +49,29 @@
                 <div class="active tab-pane" id="suplaiBarang">
                     <h4>Barang telah di suplai</h4>
                     <div>
-                        <a href="/admin/supplier/suplaiBarang" class="btn btn-primary w-25 mb-3">Suplai Barang</a>
+                        <a href="/admin/supplier/suplaiBarang/{{$supplier->id}}" class="btn btn-primary w-25 mb-3">Suplai Barang</a>
                     </div>
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th style="width: 10px">No</th>
+                                <th style="width: 10px">Id</th>
                                 <th>Nama Barang</th>
                                 <th>Kuantitas</th>
                                 <th>Harga</th>
                             </tr>
                         </thead>
+                        
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Televisi</td>
-                                <td>20</td>
-                                <td>300000</td>
-                            </tr>
+                            @if(count($supplier->suplai) > 0)
+                              @foreach($supplier->suplai[0]->suplaiDetails as $suplaiDetail)
+                                <tr>
+                                  <td>{{$suplaiDetail->suplai_id}}</td>
+                                  <td>{{$suplaiDetail->barang->nama}}</td>
+                                  <td>{{$suplaiDetail->qty}}</td>
+                                  <td>{{$suplaiDetail->harga}}</td>
+                                </tr>
+                              @endforeach
+                            @endif
                             
                         </tbody>
                     </table>

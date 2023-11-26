@@ -13,7 +13,7 @@ class Barang extends Model
     /**
      * Get the barangGudangDetail for barang
      */
-    public function barangGudangDetail(): HasMany
+    public function barangGudangDetails(): HasMany
     {
         return $this->hasMany(BarangGudangDetail::class);
     }
@@ -21,7 +21,7 @@ class Barang extends Model
     /**
      * Get the suplaiDetail for barang
      */
-    public function suplaiDetail(): HasMany
+    public function suplaiDetails(): HasMany
     {
         return $this->hasMany(SuplaiDetail::class);
     }

@@ -60,7 +60,7 @@ class GudangController extends Controller
     }
 
     public function show(Request $request, String $id){
-        $gudang = $this->gudang::where('id',$id)->first();
+        $gudang = $this->gudang::where('id',$id)->with(['barangGudang','barangGudang.barangGudangDetail','barangGudang.barangGudangDetail.barang'])->first();
         return view('admin.gudang.show',[
             'gudang' => $gudang
         ]);

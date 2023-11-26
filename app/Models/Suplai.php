@@ -13,8 +13,13 @@ class Suplai extends Model
     /**
      * Get the suplaiDetail for suplai
      */
-    public function suplaiDetail(): HasMany
+    public function suplaiDetails(): HasMany
     {
         return $this->hasMany(SuplaiDetail::class);
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
     }
 }

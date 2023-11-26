@@ -25,4 +25,18 @@ class Supplier extends Model
     {
         return $this->hasMany(Suplai::class);
     }
+
+    // /**
+    //  * Get the suplaiDetail through suplai
+    //  */
+    // public function suplaiDetail(){
+    //     return $this->hasManyThrough(SuplaiDetail::class, Suplai::class);
+    // }
+
+    // /**
+    //  * Get the barang through suplaiDetail and suplai
+    //  */
+    // public function barang(){
+    //     return $this->hasManyThrough(Barang::class, SuplaiDetail::class, Suplai::class);
+    // }
 }
