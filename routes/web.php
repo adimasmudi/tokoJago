@@ -63,7 +63,9 @@ Route::group(['prefix' => 'admin'], function(){
         });
 
         Route::group(['prefix' => 'kasirToko'], function(){
-            Route::get('/', [TokoController::class, 'createAddKasirToko']);
+            Route::get('/{id}', [TokoController::class, 'createAddKasirToko']);
+
+            Route::post('/save',[TokoController::class, 'saveKasir']);
         });
 
         
