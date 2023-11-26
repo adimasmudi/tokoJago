@@ -16,7 +16,7 @@
               <div class="card-body">
                   <div class="form-group">
                     <label for="Qty">Nama Barang</label>
-                    <input type="integer" class="form-control" id="Qty" name="Qty" placeholder="Masukkan Qty produk">
+                    <input type="integer" class="form-control" id="Qty" name="Qty" value="Nama Barang" readonly>
                   </div>
               </div>
               <div class="card-body">

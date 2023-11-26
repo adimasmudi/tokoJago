@@ -9,7 +9,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <form method="POST" action="/kasir/ordero/tambah" enctype="multipart/form-data">
+              <form method="POST" action="/kasir/order/tambah" enctype="multipart/form-data">
               @csrf
                 <label for="search">Search:</label>
                 <input type="text" name="search" id="search">
@@ -21,21 +21,23 @@
                       <th>Nama</th>
                       <th>Harga</th>
                       <th>Qty</th>
+                      <th>Total</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                         <td>1</td>
                         <td>kipas angin1</td>
-                        <td>20.000/td>
-                        <td>10<td>
+                        <td>20.000</td>
+                        <td>10</td>
+                        <td>200.000</td>
                     </tr>
                     
                   </tbody>
                 </table>
                 
                 <div class="card-footer">
-                    <p>Harga Total : </p>>
+                    <p>Harga Total : </p>
                     <button type="submit" class="btn btn-primary">bayar</button>
                 </div>
               

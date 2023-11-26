@@ -6,6 +6,9 @@ use App\Http\Controllers\GudangController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TokoController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\orderController;
+use App\Http\Controllers\produkController;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,4 +80,32 @@ Route::group(['prefix' => 'admin'], function(){
         Route::get('/detail', [BarangController::class, 'show']);
         Route::get('/edit', [BarangController::class, 'edit']);
     });
+});
+Route::group(['prefix' => 'kasir'], function(){
+        Route::get('/login', function(){
+            return view('kasir.login');
+        });
+        Route::get('/', function(){
+            return view('kasir.home');
+        });
+    
+        Route::group(['prefix' => 'customer'], function(){
+            Route::get('/', [customerController::class,'index']);
+            Route::get('/tambah', [customerController::class, 'tambah']);
+            Route::get('/edit', [customerController::class, 'edit']);
+
+        });
+    
+        Route::group(['prefix' => 'order'], function(){
+            Route::get('/', [orderController::class,'index']);
+            Route::get('/cart', [orderController::class, 'cart']);
+            Route::get('/pembayaran', [orderController::class, 'pembayaran']);
+            
+        });
+    
+        Route::group(['prefix' => 'produk'], function(){
+            Route::get('/', [produkController::class,'index']);
+            Route::get('/edit', [produkController::class, 'edit']);
+        });
+    
 });

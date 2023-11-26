@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <a href="cart.blade.php" class="btn btn-primary w-25 mb-3">Cart</a>
+          <a href="../order/cart" class="btn btn-primary w-25 mb-3">Cart</a>
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">Tabel Order</h3>

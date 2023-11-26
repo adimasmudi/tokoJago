@@ -27,7 +27,7 @@
                         <td>10</td>
                         <td>60000</td>
                         <td>
-                        <a href="edit.blade.php" class="btn btn-primary mx-2">
+                        <a href="../kasir/produk/edit" class="btn btn-primary mx-2">
                           edit
                         </a>
                         <a href="#" class="btn btn-danger" id="delete" data-redirect="customer" data-url="customer/delete" data-id="">
