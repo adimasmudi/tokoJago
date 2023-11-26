@@ -78,8 +78,10 @@ Route::group(['prefix' => 'admin'], function(){
         Route::delete('/delete/{id}', [SupplierController::class,'delete']);
 
         Route::group(['prefix' => 'suplaiBarang'], function(){
-            Route::get('/', [SupplierController::class, 'createSuplaiBarangSupplier']);
-            Route::get('/confirm', [SupplierController::class, 'createSuplaiBarangSupplierConfirm']);
+            Route::get('/{id}', [SupplierController::class, 'createSuplaiBarangSupplier']);
+            Route::get('/confirm/{id}/{gudangId}', [SupplierController::class, 'createSuplaiBarangSupplierConfirm']);
+
+            Route::post('/save',[SupplierController::class, 'saveSuplaiBarang']);
         });
     });
 

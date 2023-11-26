@@ -62,21 +62,26 @@
                             <th>Action</th>
                             </tr>
                         </thead>
+                        
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Barang 1</td>
-                                <td>15000</td>
-                                <td>100</td>
-                                <td>
-                                    <a href="/admin/gudang/barangGudang/edit" class="btn btn-warning mx-2">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-danger" id="delete" data-redirect="barangGudang" data-url="barangGudang/delete" data-id="">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
+                            @if(count($gudang->barangGudang) > 0)
+                              @foreach($gudang->barangGudang[0]->barangGudangDetail as $detailBarang)
+                                <tr>
+                                  <td>{{$detailBarang->barang_id}}</td>
+                                  <td>{{$detailBarang->barang->nama}}</td>
+                                  <td>{{$detailBarang->harga}}</td>
+                                  <td>{{$detailBarang->qty}}</td>
+                                  <td>
+                                      <a href="/admin/gudang/barangGudang/edit" class="btn btn-warning mx-2">
+                                          <i class="fas fa-edit"></i>
+                                      </a>
+                                      <a href="#" class="btn btn-danger" id="delete" data-redirect="barangGudang" data-url="barangGudang/delete" data-id="">
+                                          <i class="fas fa-trash"></i>
+                                      </a>
+                                  </td>
+                                </tr>
+                              @endforeach
+                            @endif
                             
                         </tbody>
                     </table>

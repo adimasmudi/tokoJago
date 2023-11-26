@@ -9,15 +9,17 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <form method="POST" action="/admin/supplier/suplaiBarangSupplier/save" enctype="multipart/form-data">
+                <form method="POST" action="/admin/supplier/suplaiBarang/save" enctype="multipart/form-data">
                 @csrf
-                    <h6>Barang yang mau disuplai</h6>
+                    <h6>Barang yang disuplai</h6>
                 <div>
                     <div class="form-group">
                         <label for="barang">barang</label>
                         <select class="form-control select2" style="width: 100%;" name="barang_id">
-                        <option selected="selected">--pilih barang--</option>
-                        <option value="1">barang1</option>
+                          <option selected="selected">--pilih barang--</option>
+                          @foreach($barangs as $barang)
+                            <option value="{{$barang->id}}">{{$barang->nama}} ({{$barang->harga}})</option>
+                          @endforeach
                         </select>
                     </div>
                     <div class="form-group">
@@ -25,6 +27,8 @@
                         <input type="number" class="form-control" id="kuantitas" name="kuantitas" placeholder="Masukkan kuantitas ex : 20">
                     </div>
                 </div>
+                <input type="hidden" name ="supplier_id" value="{{$supplier->id}}">
+                <input type="hidden" name ="gudang_id" value="{{$gudang->id}}">
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>

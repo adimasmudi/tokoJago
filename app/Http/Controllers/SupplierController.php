@@ -3,6 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Supplier;
+use App\Models\Gudang;
+use App\Models\Barang;
+use App\Models\Suplai;
+use App\Models\SuplaiDetail;
+use App\Models\BarangGudang;
+use App\Models\BarangGudangDetail;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -11,10 +18,22 @@ use InvalidArgumentException;
 class SupplierController extends Controller
 {
     protected $supplier;
+    protected $gudang;
+    protected $barang;
+    protected $suplai;
+    protected $suplaiDetail;
+    protected $barangGudang;
+    protected $barangGudangDetail;
 
-    public function __construct(Supplier $supplier)
+    public function __construct(Supplier $supplier, Gudang $gudang, Barang $barang, Suplai $suplai, SuplaiDetail $suplaiDetail, BarangGudang $barangGudang, BarangGudangDetail $barangGudangDetail)
     {
         $this->supplier = $supplier;
+        $this->gudang = $gudang;
+        $this->barang = $barang;
+        $this->suplai = $suplai;
+        $this->suplaiDetail = $suplaiDetail;
+        $this->barangGudang = $barangGudang;
+        $this->barangGudangDetail = $barangGudangDetail;
     }
 
     public function index(){
@@ -61,7 +80,8 @@ class SupplierController extends Controller
     }
 
     public function show(Request $request, String $id){
-        $supplier = $this->supplier::where('id',$id)->first();
+        $supplier = $this->supplier::where('id',$id)->with(['suplai','suplai.suplaiDetails','suplai.suplaiDetails.barang'])->first();
+
         return view('admin.supplier.show',[
             'supplier' => $supplier
         ]);
@@ -97,11 +117,73 @@ class SupplierController extends Controller
     }
 
 
-    public function createSuplaiBarangSupplier(){
-        return view('admin.supplier.suplai.create');
+    public function createSuplaiBarangSupplier(Request $request, String $id){
+        $gudangs = $this->gudang->get();
+        $supplier = $this->supplier::where('id',$id)->first();
+        return view('admin.supplier.suplai.create',[
+            'gudangs' => $gudangs,
+            'supplier' => $supplier
+        ]);
     }
 
-    public function createSuplaiBarangSupplierConfirm(){
-        return view('admin.supplier.suplai.createConfirm');
+    public function createSuplaiBarangSupplierConfirm(Request $request, String $id, String $gudangId){
+        $gudang = $this->gudang::where('id',$gudangId)->first();
+        $supplier = $this->supplier::where('id',$id)->first();
+        $barangs = $this->barang->get();
+        return view('admin.supplier.suplai.createConfirm',[
+            'gudang' => $gudang,
+            'supplier' => $supplier,
+            'barangs' => $barangs
+        ]);
+    }
+
+    public function saveSuplaiBarang(Request $request){
+        $data = $request->all();
+
+        try{
+            $validator = Validator::make($data,[
+                'gudang_id' => 'required',
+                'supplier_id' => 'required',
+                'barang_id' => 'required',
+                'kuantitas' => 'required'
+            ]);
+    
+            if ($validator->fails()) {
+                throw new InvalidArgumentException($validator->errors()->first());
+            }
+
+            $barang = $this->barang::where('id', $data['barang_id'])->first();
+
+            $hargaTotal = $barang->harga * $data['kuantitas'];
+
+            $dataSuplai = new $this->suplai;
+            $dataSuplai->supplier_id = $data['supplier_id'];
+            $dataSuplai->tanggal = Carbon::now();
+            $dataSuplai->harga_total = $hargaTotal;
+            $dataSuplai->save();
+
+            $dataSuplaiDetail = new $this->suplaiDetail;
+            $dataSuplaiDetail->suplai_id = $dataSuplai->id;
+            $dataSuplaiDetail->barang_id = $data['barang_id'];
+            $dataSuplaiDetail->qty = $data['kuantitas'];
+            $dataSuplaiDetail->harga = $barang->harga;
+            $dataSuplaiDetail->save();
+
+            $dataSuplaiGudang = new $this->barangGudang;
+            $dataSuplaiGudang->gudang_id = $data['gudang_id'];
+            $dataSuplaiGudang->save();
+
+            $dataSuplaiGudangDetail = new $this->barangGudangDetail;
+            $dataSuplaiGudangDetail->barang_gudang_id = $dataSuplaiGudang->id;
+            $dataSuplaiGudangDetail->barang_id = $data['barang_id'];
+            $dataSuplaiGudangDetail->qty = $data['kuantitas'];
+            $dataSuplaiGudangDetail->harga = $barang->harga;
+            $dataSuplaiGudangDetail->save();
+
+            return redirect('/admin/supplier/detail/'.$data['supplier_id']);
+
+        }catch(Exception $e){
+            dd($e);
+        }
     }
 }
