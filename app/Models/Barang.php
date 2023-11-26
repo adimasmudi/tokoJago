@@ -25,4 +25,12 @@ class Barang extends Model
     {
         return $this->hasMany(SuplaiDetail::class);
     }
+
+    /**
+     * Get the ProdukTokoDetail for barang
+     */
+    public function produkTokoDetails(): HasMany
+    {
+        return $this->hasMany(ProdukTokoDetail::class);
+    }
 }

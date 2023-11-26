@@ -48,7 +48,7 @@
                 <div class="active tab-pane" id="produkToko">
                     <h4>Barang di Toko</h4>
                     <div>
-                        <a href="/admin/toko/suplaiBarangToko" class="btn btn-primary w-25 mb-3">Suplai</a>
+                        <a href="/admin/toko/suplaiBarangToko/{{$toko->id}}" class="btn btn-primary w-25 mb-3">Suplai</a>
                     </div>
                     <table class="table table-bordered">
                         <thead>
@@ -60,12 +60,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Televisi</td>
-                                <td>20</td>
-                                <td>300000</td>
-                            </tr>
+                            @if(count($toko->produkToko) > 0)
+                              @foreach($toko->produkToko[0]->produkTokoDetail as $detail)
+                                <tr>
+                                  <td>{{$detail->barang_id}}</td>
+                                  <td>{{$detail->barang->nama}}</td>
+                                  <td>{{$detail->qty}}</td>
+                                  <td>{{$detail->harga}}</td>
+                                </tr>
+                              @endforeach
+                            @endif
                             
                         </tbody>
                     </table>

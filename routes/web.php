@@ -56,8 +56,10 @@ Route::group(['prefix' => 'admin'], function(){
         Route::delete('/delete/{id}', [TokoController::class,'delete']);
 
         Route::group(['prefix' => 'suplaiBarangToko'], function(){
-            Route::get('/', [TokoController::class, 'createSuplaiBarangToko']);
-            Route::get('/confirm', [TokoController::class, 'createSuplaiBarangTokoConfirm']);
+            Route::get('/{id}', [TokoController::class, 'createSuplaiBarangToko']);
+            Route::get('/confirm/{id}/{gudangId}', [TokoController::class, 'createSuplaiBarangTokoConfirm']);
+
+            Route::post('/save',[TokoController::class, 'saveSuplaiBarangToko']);
         });
 
         Route::group(['prefix' => 'kasirToko'], function(){
