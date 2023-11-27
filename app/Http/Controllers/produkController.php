@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Barang; // Ubah nama model yang diimpor menjadi barang
+use App\Models\BarangGudangDetail; // Ubah nama model yang diimpor menjadi barang
 use Exception;
 use Illuminate\Support\Facades\Validator;
 use InvalidArgumentException;
@@ -19,9 +20,9 @@ class ProdukController extends Controller
     }
 
     public function index(){
-        $barangs = Barang::paginate(10); // Ubah nama model dari barang menjadi Barang
+        $barangs = Barang::with('barangGudangDetails')->paginate(10);
         return view('kasir.produk.index', [
-            'barangs' => $barangs // Ubah nama variabel dari $barangs menjadi $barangs
+            'barangs' => $barangs
         ]);
     }
 

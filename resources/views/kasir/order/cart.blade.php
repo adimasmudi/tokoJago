@@ -25,19 +25,19 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @if($barangs)
-                      @forelse($barangs as $barang)
-                        <tr>
-                          <td>{{ $barang->id }}</td>
-                          <td>{{ $barang->nama }}</td>
-                          <td>{{ $barang->harga }}</td>
+                    @if($orderDetails)
+                      @forelse($orderDetails as $orderDetail)
+                      <tr>
+                          <td>{{ $orderDetail->id }}</td>
+                          <td>{{ $orderDetail->barang->nama }}</td>
+                          <td>{{ $orderDetail->barang->harga }}</td>
+                          <td>{{ $orderDetail->qty }}</td>
                           <td>
-                              10
+                              {{ $orderDetail->qty * $orderDetail->barang->harga }}
                           </td>
-                        </tr>
-                        <tr> 10*{{ $barang->harga }}</tr>
+                      </tr>
                       @empty
-                        <p>Tidak ada barang yang ditemukan.</p>
+                      <p>Tidak ada barang yang ditemukan.</p>
                       @endforelse
                     @endif
                   </tbody>
