@@ -11,16 +11,16 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form method="POST" action="/admin/barang/update" enctype="multipart/form-data">
+            <form method="POST" action="/admin/barang/update/{{$barang->id}}" enctype="multipart/form-data">
               @csrf
               <div class="card-body">
                   <div class="form-group">
-                    <label for="nama_barang">Nama Barang</label>
-                    <input type="text" class="form-control" id="nama_barang" name="nama_barang" placeholder="Masukkan Nama Barang">
+                    <label for="nama">Nama Barang</label>
+                    <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Barang" value="{{$barang->nama}}">
                   </div>
                   <div class="form-group">
                     <label for="harga">harga</label>
-                    <input type="number" class="form-control" id="harga" name="harga" placeholder="Masukkan harga ex : 100000">
+                    <input type="number" class="form-control" id="harga" name="harga" placeholder="Masukkan harga ex : 100000" value="{{$barang->harga}}">
                   </div>
               </div>
               <!-- /.card-body -->

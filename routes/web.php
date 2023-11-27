@@ -8,7 +8,7 @@ use App\Http\Controllers\TokoController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\orderController;
-use App\Http\Controllers\produkController;
+use App\Http\Controllers\ProdukController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +25,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::group(['prefix' => 'admin'], function(){
     Route::get('/login', function(){
         return view('admin.login');
@@ -36,8 +37,12 @@ Route::group(['prefix' => 'admin'], function(){
     Route::group(['prefix' => 'gudang'], function(){
         Route::get('/', [GudangController::class,'index']);
         Route::get('/create', [GudangController::class, 'create']);
-        Route::get('/detail', [GudangController::class, 'show']);
-        Route::get('/edit', [GudangController::class, 'edit']);
+        Route::get('/detail/{id}', [GudangController::class, 'show']);
+        Route::get('/edit/{id}', [GudangController::class, 'edit']);
+
+        Route::post('/save', [GudangController::class,'save']);
+        Route::post('/update/{id}', [GudangController::class,'update']);
+        Route::delete('/delete/{id}', [GudangController::class,'delete']);
 
         Route::group(['prefix' => 'barangGudang'], function(){
             Route::get('/edit', [GudangController::class, 'editBarangGudang']);
@@ -47,12 +52,18 @@ Route::group(['prefix' => 'admin'], function(){
     Route::group(['prefix' => 'toko'], function(){
         Route::get('/', [TokoController::class,'index']);
         Route::get('/create', [TokoController::class, 'create']);
-        Route::get('/detail', [TokoController::class, 'show']);
-        Route::get('/edit', [TokoController::class, 'edit']);
+        Route::get('/detail/{id}', [TokoController::class, 'show']);
+        Route::get('/edit/{id}', [TokoController::class, 'edit']);
+
+        Route::post('/save', [TokoController::class,'save']);
+        Route::post('/update/{id}', [TokoController::class,'update']);
+        Route::delete('/delete/{id}', [TokoController::class,'delete']);
 
         Route::group(['prefix' => 'suplaiBarangToko'], function(){
-            Route::get('/', [TokoController::class, 'createSuplaiBarangToko']);
-            Route::get('/confirm', [TokoController::class, 'createSuplaiBarangTokoConfirm']);
+            Route::get('/{id}', [TokoController::class, 'createSuplaiBarangToko']);
+            Route::get('/confirm/{id}/{gudangId}', [TokoController::class, 'createSuplaiBarangTokoConfirm']);
+
+            Route::post('/save',[TokoController::class, 'saveSuplaiBarangToko']);
         });
 
         Route::group(['prefix' => 'kasirToko'], function(){
@@ -65,22 +76,33 @@ Route::group(['prefix' => 'admin'], function(){
     Route::group(['prefix' => 'supplier'], function(){
         Route::get('/', [SupplierController::class,'index']);
         Route::get('/create', [SupplierController::class, 'create']);
-        Route::get('/detail', [SupplierController::class, 'show']);
-        Route::get('/edit', [SupplierController::class, 'edit']);
+        Route::get('/detail/{id}', [SupplierController::class, 'show']);
+        Route::get('/edit/{id}', [SupplierController::class, 'edit']);
+
+        Route::post('/save', [SupplierController::class,'save']);
+        Route::post('/update/{id}', [SupplierController::class,'update']);
+        Route::delete('/delete/{id}', [SupplierController::class,'delete']);
 
         Route::group(['prefix' => 'suplaiBarang'], function(){
-            Route::get('/', [SupplierController::class, 'createSuplaiBarangSupplier']);
-            Route::get('/confirm', [SupplierController::class, 'createSuplaiBarangSupplierConfirm']);
+            Route::get('/{id}', [SupplierController::class, 'createSuplaiBarangSupplier']);
+            Route::get('/confirm/{id}/{gudangId}', [SupplierController::class, 'createSuplaiBarangSupplierConfirm']);
+
+            Route::post('/save',[SupplierController::class, 'saveSuplaiBarang']);
         });
     });
 
     Route::group(['prefix' => 'barang'], function(){
         Route::get('/', [BarangController::class,'index']);
         Route::get('/create', [BarangController::class, 'create']);
-        Route::get('/detail', [BarangController::class, 'show']);
-        Route::get('/edit', [BarangController::class, 'edit']);
+        Route::get('/detail/{id}', [BarangController::class, 'show']);
+        Route::get('/edit/{id}', [BarangController::class, 'edit']);
+
+        Route::post('/save', [BarangController::class,'save']);
+        Route::post('/update/{id}', [BarangController::class,'update']);
+        Route::delete('/delete/{id}', [BarangController::class,'delete']);
     });
 });
+
 Route::group(['prefix' => 'kasir'], function(){
         Route::get('/login', function(){
             return view('kasir.login');
@@ -92,7 +114,7 @@ Route::group(['prefix' => 'kasir'], function(){
         Route::group(['prefix' => 'customer'], function(){
             Route::get('/', [customerController::class,'index']);
             Route::get('/tambah', [customerController::class, 'tambah']);
-            Route::get('/edit', [customerController::class, 'edit']);
+            Route::get('/edit/{id}', [customerController::class, 'edit']);
 
         });
     
@@ -104,8 +126,8 @@ Route::group(['prefix' => 'kasir'], function(){
         });
     
         Route::group(['prefix' => 'produk'], function(){
-            Route::get('/', [produkController::class,'index']);
-            Route::get('/edit', [produkController::class, 'edit']);
+            Route::get('/', [ProdukController::class,'index']);
+            Route::get('/edit/{id}', [ProdukController::class, 'edit']);
         });
     
 });

@@ -16,8 +16,8 @@
               <div class="card-body d-flex flex-row justify-content-between">
                 <div>
                   <div class="form-group">
-                    <label for="nama_supplier">Nama Supplier</label>
-                    <input type="text" class="form-control" id="nama_supplier" name="nama_supplier" placeholder="Masukkan Nama Supplier">
+                    <label for="nama">Nama Supplier</label>
+                    <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Supplier">
                   </div>
                   <div class="form-group">
                     <label for="email">Email</label>

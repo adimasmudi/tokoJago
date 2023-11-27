@@ -3,7 +3,6 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <a href="../kasir/order/cart" class="btn btn-primary w-25 mb-3">Cart</a>
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">Tabel Order</h3>
@@ -21,19 +20,23 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Kipas Angin</td>
-                        <td>20.000</td>
-                        <td>
-                          <input type="checkbox" id="barang" name="order" value="#nama">
-                        </td>
-                    </tr>
-                    
+                    @if($barangs)
+                      @forelse($barangs as $barang)
+                        <tr>
+                          <td>{{ $barang->id }}</td>
+                          <td>{{ $barang->nama }}</td>
+                          <td>{{ $barang->harga }}</td>
+                          <td>
+                            <input type="checkbox" id="barang" name="order" value="#nama">
+                          </td>
+                        </tr>
+                      @empty
+                        <p>Tidak ada barang yang ditemukan.</p>
+                      @endforelse
+                    @endif
                   </tbody>
-                </table>
               </div>
-              
+              <a href="../kasir/order/cart" class="btn btn-primary w-25 mb-3">Cart</a>
             </div>
             
           </div>

@@ -25,14 +25,21 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>kipas angin1</td>
-                        <td>20.000</td>
-                        <td>10</td>
-                        <td>200.000</td>
-                    </tr>
-                    
+                    @if($barangs)
+                      @forelse($barangs as $barang)
+                        <tr>
+                          <td>{{ $barang->id }}</td>
+                          <td>{{ $barang->nama }}</td>
+                          <td>{{ $barang->harga }}</td>
+                          <td>
+                              10
+                          </td>
+                        </tr>
+                        <tr> 10*{{ $barang->harga }}</tr>
+                      @empty
+                        <p>Tidak ada barang yang ditemukan.</p>
+                      @endforelse
+                    @endif
                   </tbody>
                 </table>
                 

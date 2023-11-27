@@ -11,13 +11,14 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form method="POST" action="/kasir/produk/update" enctype="multipart/form-data">
+            <form method="POST" action="/kasir/produk/update/{{$barang->id}}" enctype="multipart/form-data">
               @csrf
               <div class="card-body">
-                  <div class="form-group">
-                    <label for="Qty">Nama Barang</label>
-                    <input type="integer" class="form-control" id="Qty" name="Qty" value="Nama Barang" readonly>
-                  </div>
+                <div class="form-group">
+                  <label for="nama">Nama Barang</label>
+                  <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Barang" value="{{$barang->nama}}">
+                </div>
+                <div class="form-group">
               </div>
               <div class="card-body">
                   <div class="form-group">

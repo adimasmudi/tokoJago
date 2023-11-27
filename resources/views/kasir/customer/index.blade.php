@@ -21,21 +21,26 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Customer 1</td>
-                        <td>2654742354</td>
-                        <td>
-                        <a href="/kasir/customer/edit" class="btn btn-primary mx-2">
-                          edit
-                        </a>
-
-                        <a href="#" class="btn btn-danger" id="delete" data-redirect="customer" data-url="customer/delete" data-id="">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                        </td>
-                    </tr>
-                    
+                    @if($customers)
+                      @forelse($customers as $customer)
+                        <tr>
+                          <td>{{ $customer->id }}</td>
+                          <td>{{ $customer->nama }}</td>
+                          <td>{{ $customer->no_telp }}</td>
+                          <td>10</td>
+                          <td>
+                              <a href="../kasir/cutomer/edit/{{ $customer->id }}" class="btn btn-primary mx-2">
+                                edit
+                              </a>
+                              <a href="#" class="btn btn-danger" id="delete" data-redirect="customer" data-url="customer/delete" data-id="">
+                                  <i class="fas fa-trash"></i>
+                              </a>
+                          </td>
+                        </tr>
+                      @empty
+                        <p>Tidak ada customer yang ditemukan.</p>
+                      @endforelse
+                    @endif
                   </tbody>
                 </table>
               </div>

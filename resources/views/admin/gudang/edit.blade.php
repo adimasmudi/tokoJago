@@ -11,27 +11,27 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form method="POST" action="/admin/gudang/update" enctype="multipart/form-data">
+            <form method="POST" action="/admin/gudang/update/{{$gudang->id}}" enctype="multipart/form-data">
               @csrf
               <div class="card-body d-flex flex-row justify-content-between">
                 <div>
                   <div class="form-group">
-                    <label for="nama_gudang">Nama Gudang</label>
-                    <input type="text" class="form-control" id="nama_gudang" name="nama_gudang" placeholder="Masukkan Nama Gudang">
+                    <label for="nama">Nama Gudang</label>
+                    <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Gudang" value="{{$gudang->nama}}">
                   </div>
                   <div class="form-group">
                     <label for="lokasi">Lokasi</label>
-                    <textarea name="lokasi" id="lokasi" class="form-control" cols="30" rows="10" name="lokasi"></textarea>
+                    <textarea name="lokasi" id="lokasi" class="form-control" cols="30" rows="10" name="lokasi">{{$gudang->lokasi}}</textarea>
                   </div>
                 </div>
                 <div>
                   <div class="form-group">
                     <label for="kapasitas">kapasitas</label>
-                    <input type="number" class="form-control" id="kapasitas" name="kapasitas" placeholder="Masukkan kapasitas ex : 2000">
+                    <input type="number" class="form-control" id="kapasitas" name="kapasitas" placeholder="Masukkan kapasitas ex : 2000" value="{{$gudang->kapasitas}}">
                   </div>
                   <div class="form-group">
                     <label for="deskripsi">Deskripsi</label><br>
-                    <textarea name="deskripsi" id="deskripsi" class="form-control" cols="30" rows="10" name="deskripsi"></textarea>
+                    <textarea name="deskripsi" id="deskripsi" class="form-control" cols="30" rows="10" name="deskripsi">{{$gudang->deskripsi}}</textarea>
                   </div>
 
                 </div>

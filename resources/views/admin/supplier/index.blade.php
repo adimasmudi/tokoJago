@@ -23,24 +23,33 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Supplier 1</td>
-                        <td>4723742384</td>
-                        <td>supplier1@gmail.com</td>
-                        <td>jln. raya surabaya</td>
-                        <td>
-                        <a href="/admin/supplier/detail" class="btn btn-primary mx-2">
-                          detail
-                        </a>
-                        <a href="/admin/supplier/edit" class="btn btn-warning mx-2">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <a href="#" class="btn btn-danger" id="delete" data-redirect="supplier" data-url="supplier/delete" data-id="">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                        </td>
-                    </tr>
+                    @if($suppliers)
+                      @foreach($suppliers as $supplier)
+                        <tr>
+                          <td>{{$supplier->id}}</td>
+                          <td>{{$supplier->nama}}</td>
+                          <td>{{$supplier->no_telp}}</td>
+                          <td>{{$supplier->email}}</td>
+                          <td>{{$supplier->alamat}}</td>
+                          <td>
+                            <div class="d-flex flex-row">
+                              <a href="/admin/supplier/detail/{{$supplier->id}}" class="btn btn-primary mx-2">
+                                detail
+                              </a>
+                              <a href="/admin/supplier/edit/{{$supplier->id}}" class="btn btn-warning mx-2">
+                                  <i class="fas fa-edit"></i>
+                              </a>
+                              <form method="POST"
+                                  action="/admin/supplier/delete/{{$supplier->id}}">
+                                  @csrf
+                                  @method('DELETE')
+                                  <button class="btn btn-danger mx-2"><i class="fas fa-trash"></i></button>
+                              </form>
+                            </div>
+                          </td>
+                        </tr>
+                      @endforeach
+                    @endif
                     
                   </tbody>
                 </table>
