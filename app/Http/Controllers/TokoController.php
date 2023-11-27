@@ -147,17 +147,19 @@ class TokoController extends Controller
 
             $gudang = $this->gudang::where('id', $data['gudang_id'])->with(['barangGudang','barangGudang.barangGudangDetail'])->first();
 
-            $barangGudangDetails = $gudang->barangGudang[0]->barangGudangDetail;
+            $barangGudang = $gudang->barangGudang;
 
             $barangGudangDetailQty = 0;
             $barangGudangDetailId = null;
 
-            foreach($barangGudangDetails as $detail){
-                if($detail->barang_id == $data['barang_id']){
-                    $barangGudangDetailQty = $detail->qty;
-                    $barangGudangDetailId = $detail->id;
+            foreach($barangGudang as $barangDetail){
+                if($barangDetail->barangGudangDetail->first()->barang_id == $data['barang_id']){
+                    $barangGudangDetailQty = $barangDetail->barangGudangDetail->first()->qty;
+                    $barangGudangDetailId = $barangDetail->barangGudangDetail->first()->id;
                 }
             }
+
+           
 
             if($barangGudangDetailQty < $data['kuantitas']){
                 dd('stok gudang yang dipilih tidak sesuai permintaan');

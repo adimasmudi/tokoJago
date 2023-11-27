@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\GudangController;
@@ -26,9 +27,7 @@ Route::group(['prefix' => 'admin'], function(){
     Route::get('/login', function(){
         return view('admin.login');
     });
-    Route::get('/', function(){
-        return view('admin.home');
-    });
+    Route::get('/', [AdminController::class, 'home']);
 
     Route::group(['prefix' => 'gudang'], function(){
         Route::get('/', [GudangController::class,'index']);
