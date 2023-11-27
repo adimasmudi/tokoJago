@@ -9,18 +9,20 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <h6>Nama Toko</h6>
-                <h6>Alamat</h6>
+                <h6>Nama Toko : {{$toko->nama}}</h6>
+                <h6>Alamat : {{$toko->alamat}}</h6>
               <div>
                 <div class="form-group">
                     <label for="gudang">gudang penyuplai</label>
-                    <select class="form-control select2" style="width: 100%;" name="gudang_id">
+                    <select class="form-control select2" style="width: 100%;" name="gudang_id" id="gudang_id">
                       <option selected="selected">--pilih gudang--</option>
-                      <option value="1">gudang1</option>
+                      @foreach($gudangs as $gudang)
+                        <option value="{{$gudang->id}}">{{$gudang->nama}}({{$gudang->kapasitas}})</option>
+                      @endforeach
                     </select>
                   </div>
               </div>
-              <a href="/admin/toko/suplaiBarangToko/confirm" class="btn btn-primary w-25 mb-3">Selanjutnya</a>
+              <a href="#" id="selanjutnyaLink" class="btn btn-primary w-25 mb-3">Selanjutnya</a>
               
             </div>
             
@@ -29,4 +31,17 @@
       </div>
     </div>
   </section>
+  <script>
+    var url = window.location.pathname;
+    var id = url.substring(url.lastIndexOf('/') + 1);
+    // Add an event listener to the select element
+    document.getElementById('gudang_id').addEventListener('change', function() {
+      // Get the selected value
+      var selectedGudangId = this.value;
+
+      // Update the href attribute of the link
+      var link = document.getElementById('selanjutnyaLink');
+      link.href = "/admin/toko/suplaiBarangToko/confirm/"+id+'/' + selectedGudangId;
+    });
+  </script>
 </x-layout>

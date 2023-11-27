@@ -21,22 +21,24 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Kipas Angin</td>
-                        <td>10</td>
-                        <td>60000</td>
-                        <td>
-                        <a href="edit.blade.php" class="btn btn-primary mx-2">
-                          edit
-                        </a>
-                        <a href="#" class="btn btn-danger" id="delete" data-redirect="customer" data-url="customer/delete" data-id="">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                        </td>
-                    </tr>
-                    
-                  </tbody>
+                    @if($barangs)
+                      @forelse($barangs as $barang)
+                        <tr>
+                          <td>{{ $barang->id }}</td>
+                          <td>{{ $barang->nama }}</td>
+                          <td>{{ $barang->harga }}</td>
+                          <td>10</td>
+                          <td>
+                              <a href="../kasir/produk/edit/{{ $barang->id }}" class="btn btn-primary mx-2">
+                                edit
+                              </a>
+                          </td>
+                        </tr>
+                      @empty
+                        <p>Tidak ada barang yang ditemukan.</p>
+                      @endforelse
+                    @endif
+                                    </tbody>
                 </table>
               </div>
               

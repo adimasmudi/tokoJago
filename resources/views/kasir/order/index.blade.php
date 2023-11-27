@@ -3,7 +3,6 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <a href="cart.blade.php" class="btn btn-primary w-25 mb-3">Cart</a>
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">Tabel Order</h3>
@@ -17,25 +16,27 @@
                       <th style="width: 10px">ID</th>
                       <th>Nama</th>
                       <th>Harga</th>
-                      <th>Order</th>
+                      <th>order</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Toko 1</td>
-                        <td>jln. Raya Kamal</td>
-                        <td>
-                        <a href="/kasir/order/order" class="btn btn-warning mx-2">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        </td>
-                    </tr>
-                    
+                    @if($barangs)
+                      @forelse($barangs as $barang)
+                        <tr>
+                          <td>{{ $barang->id }}</td>
+                          <td>{{ $barang->nama }}</td>
+                          <td>{{ $barang->harga }}</td>
+                          <td>
+                            <input type="checkbox" id="barang" name="order" value="#nama">
+                          </td>
+                        </tr>
+                      @empty
+                        <p>Tidak ada barang yang ditemukan.</p>
+                      @endforelse
+                    @endif
                   </tbody>
-                </table>
               </div>
-              
+              <a href="../kasir/order/cart" class="btn btn-primary w-25 mb-3">Cart</a>
             </div>
             
           </div>

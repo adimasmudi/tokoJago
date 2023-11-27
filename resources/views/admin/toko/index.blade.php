@@ -21,27 +21,39 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Toko 1</td>
-                        <td>jln. Raya Kamal</td>
-                        <td>
-                        <a href="/admin/toko/detail" class="btn btn-primary mx-2">
-                          detail
-                        </a>
-                        <a href="/admin/toko/edit" class="btn btn-warning mx-2">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <a href="#" class="btn btn-danger" id="delete" data-redirect="toko" data-url="toko/delete" data-id="">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                        </td>
-                    </tr>
+                    @if($tokos)
+                      @foreach($tokos as $toko)
+                        <tr>
+                          <td>{{$toko->id}}</td>
+                          <td>{{$toko->nama}}</td>
+                          <td>{{$toko->alamat}}</td>
+                          <td>
+                            <div class="d-flex flex-row">
+                              <a href="/admin/toko/detail/{{$toko->id}}" class="btn btn-primary mx-2">
+                              detail
+                              </a>
+                              <a href="/admin/toko/edit/{{$toko->id}}" class="btn btn-warning mx-2">
+                                  <i class="fas fa-edit"></i>
+                              </a>
+                              <form method="POST"
+                                    action="/admin/toko/delete/{{$toko->id}}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger mx-2"><i class="fas fa-trash"></i></button>
+                                </form>
+                            </div>
+                          </td>
+                        </tr>
+                      @endforeach
+                    @endif
+                    
                     
                   </tbody>
                 </table>
               </div>
-              
+              <div>
+                {{$tokos->links()}}
+              </div>
             </div>
             
           </div>

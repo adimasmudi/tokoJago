@@ -15,8 +15,8 @@
               @csrf
               <div class="card-body">
                   <div class="form-group">
-                    <label for="nama_toko">Nama Toko</label>
-                    <input type="text" class="form-control" id="nama_toko" name="nama_toko" placeholder="Masukkan Nama Toko">
+                    <label for="nama">Nama Toko</label>
+                    <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Toko">
                   </div>
                   <div class="form-group">
                     <label for="alamat">alamat</label>

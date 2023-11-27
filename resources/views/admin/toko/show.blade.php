@@ -9,17 +9,20 @@
           <div class="card card-primary card-outline">
             <div class="card-body box-profile">
 
-              <h3 class="profile-username text-center">Nama toko</h3>
+              <h3 class="profile-username text-center">{{$toko->nama}}</h3>
 
-              <p class="text-muted text-center">Alamat</p>
+              <p class="text-muted text-center">Alamat : {{$toko->alamat}}</p>
 
               <div class="d-flex flex-row">
-                <a href="/admin/toko/edit" class="btn btn-warning mx-2">
+                <a href="/admin/toko/edit/{{$toko->id}}" class="btn btn-warning mx-2">
                   <i class="fas fa-edit"></i> edit
                 </a>
-                <a href="#" class="btn btn-danger" id="delete" data-redirect="toko" data-url="toko/delete" data-id="">
-                  <i class="fas fa-trash"></i>
-                </a>
+                <form method="POST"
+                    action="/admin/toko/delete/{{$toko->id}}">
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-danger mx-2"><i class="fas fa-trash"></i></button>
+                </form>
               </div>
             </div>
             <!-- /.card-body -->
@@ -45,7 +48,7 @@
                 <div class="active tab-pane" id="produkToko">
                     <h4>Barang di Toko</h4>
                     <div>
-                        <a href="/admin/toko/suplaiBarangToko" class="btn btn-primary w-25 mb-3">Suplai</a>
+                        <a href="/admin/toko/suplaiBarangToko/{{$toko->id}}" class="btn btn-primary w-25 mb-3">Suplai</a>
                     </div>
                     <table class="table table-bordered">
                         <thead>
@@ -57,12 +60,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Televisi</td>
-                                <td>20</td>
-                                <td>300000</td>
-                            </tr>
+                            @if(count($toko->produkToko) > 0)
+                              @foreach($toko->produkToko[0]->produkTokoDetail as $detail)
+                                <tr>
+                                  <td>{{$detail->barang_id}}</td>
+                                  <td>{{$detail->barang->nama}}</td>
+                                  <td>{{$detail->qty}}</td>
+                                  <td>{{$detail->harga}}</td>
+                                </tr>
+                              @endforeach
+                            @endif
                             
                         </tbody>
                     </table>
