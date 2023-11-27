@@ -27,7 +27,7 @@
                           <td>{{ $barang->id }}</td>
                           <td>{{ $barang->nama }}</td>
                           <td>{{ $barang->harga }}</td>
-                          <td>10</td>
+                          <td>{{ $barang->barangGudangDetails->sum('qty') }}</td>
                           <td>
                               <a href="../kasir/produk/edit/{{ $barang->id }}" class="btn btn-primary mx-2">
                                 edit
@@ -38,7 +38,7 @@
                         <p>Tidak ada barang yang ditemukan.</p>
                       @endforelse
                     @endif
-                                    </tbody>
+                  </tbody>
                 </table>
               </div>
               

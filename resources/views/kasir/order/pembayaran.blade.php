@@ -29,19 +29,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Customer 1</td>
-                        <td>2654742354</td>
-                        <td>
-                          <input type="radio" id="customer" name="pembeli" value="#nama">
-                        </td>
-                    </tr>
-                            
+                  @forelse($customers as $customer)
+                   <tr>
+                     <td>{{ $customer->id }}</td>
+                     <td>{{ $customer->nama }}</td>
+                     <td>{{ $customer->no_telepon }}</td>
+                     <td><input type="radio" id="customer" name="pembeli" value="{{ $customer->nama }}"></td>
+                   </tr>
+                  @empty
+                   <p>Tidak ada pelanggan yang ditemukan.</p>
+                  @endforelse            
                 </tbody>
               </table>
               </div>
-              <script src="../js/scripts.js"></script>
             </div>
           </div>
           <div class="card">
