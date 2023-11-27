@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Toko;
 use App\Models\Gudang;
 use App\Models\Barang;
+use App\Models\Kasir;
 use App\Models\ProdukToko;
 use App\Models\ProdukTokoDetail;
 use App\Models\BarangGudangDetail;
@@ -18,15 +19,17 @@ class TokoController extends Controller
     protected $toko;
     protected $gudang;
     protected $barang;
+    protected $kasir;
     protected $produkToko;
     protected $produkTokoDetail;
     protected $barangGudangDetail;
 
-    public function __construct(Toko $toko, Gudang $gudang, Barang $barang, ProdukToko $produkToko, ProdukTokoDetail $produkTokoDetail, BarangGudangDetail $barangGudangDetail)
+    public function __construct(Toko $toko, Gudang $gudang, Barang $barang, Kasir $kasir, ProdukToko $produkToko, ProdukTokoDetail $produkTokoDetail, BarangGudangDetail $barangGudangDetail)
     {
         $this->toko = $toko;
         $this->gudang = $gudang;
         $this->barang = $barang;
+        $this->kasir = $kasir;
         $this->produkToko = $produkToko;
         $this->produkTokoDetail = $produkTokoDetail;
         $this->barangGudangDetail = $barangGudangDetail;
@@ -71,8 +74,10 @@ class TokoController extends Controller
 
     public function show(Request $request, String $id){
         $toko = $this->toko::where('id',$id)->with(['produkToko', 'produkToko.produkTokoDetail','produkToko.produkTokoDetail.barang'])->first();
+        $kasirs = $this->kasir::where('toko_id',$id)->get();
         return view('admin.toko.show',[
-            'toko' => $toko
+            'toko' => $toko,
+            'kasirs' => $kasirs
         ]);
     }
 
@@ -142,17 +147,19 @@ class TokoController extends Controller
 
             $gudang = $this->gudang::where('id', $data['gudang_id'])->with(['barangGudang','barangGudang.barangGudangDetail'])->first();
 
-            $barangGudangDetails = $gudang->barangGudang[0]->barangGudangDetail;
+            $barangGudang = $gudang->barangGudang;
 
             $barangGudangDetailQty = 0;
             $barangGudangDetailId = null;
 
-            foreach($barangGudangDetails as $detail){
-                if($detail->barang_id == $data['barang_id']){
-                    $barangGudangDetailQty = $detail->qty;
-                    $barangGudangDetailId = $detail->id;
+            foreach($barangGudang as $barangDetail){
+                if($barangDetail->barangGudangDetail->first()->barang_id == $data['barang_id']){
+                    $barangGudangDetailQty = $barangDetail->barangGudangDetail->first()->qty;
+                    $barangGudangDetailId = $barangDetail->barangGudangDetail->first()->id;
                 }
             }
+
+           
 
             if($barangGudangDetailQty < $data['kuantitas']){
                 dd('stok gudang yang dipilih tidak sesuai permintaan');
@@ -182,7 +189,43 @@ class TokoController extends Controller
     }
 
 
-    public function createAddKasirToko(){
-        return view('admin.toko.kasir.create');
+    public function createAddKasirToko(Request $request, String $id){
+        $toko = $this->toko::where('id',$id)->first();
+        return view('admin.toko.kasir.create',[
+            'toko' => $toko
+        ]);
+    }
+
+    public function saveKasir(Request $request){
+        $data = $request->all();
+
+        try{
+            $validator = Validator::make($data,[
+                'nama' => 'required',
+                'no_telp' => 'required',
+                'email' => 'email|required',
+                'password' => 'required',
+                'alamat' => 'required',
+                'toko_id' => 'required'
+            ]);
+
+            if ($validator->fails()) {
+                throw new InvalidArgumentException($validator->errors()->first());
+            }
+
+            $dataBaru = new $this->kasir;
+
+            $dataBaru->nama = $data['nama'];
+            $dataBaru->no_telp = $data['no_telp'];
+            $dataBaru->email = $data['email'];
+            $dataBaru->password = $data['password'];
+            $dataBaru->alamat = $data['alamat'];
+            $dataBaru->toko_id = $data['toko_id'];
+            $dataBaru->save();
+
+            return redirect('/admin/toko/detail/'.$data['toko_id']);
+        }catch(Exception $e){
+            dd($e);
+        }
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\ProdukToko;
+use App\Models\ProdukTokoDetail;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -11,10 +13,14 @@ use InvalidArgumentException;
 class BarangController extends Controller
 {
     protected $barang;
+    protected $produkToko;
+    protected $produkTokoDetail;
 
-    public function __construct(Barang $barang)
+    public function __construct(Barang $barang, ProdukToko $produkToko, ProdukTokoDetail $produkTokoDetail)
     {
         $this->barang = $barang;
+        $this->produkToko = $produkToko;
+        $this->produkTokoDetail = $produkTokoDetail;
     }
 
     public function index(){
@@ -55,7 +61,7 @@ class BarangController extends Controller
     }
 
     public function show(Request $request, String $id){
-        $barang = $this->barang::where('id',$id)->first();
+        $barang = $this->barang::where('id',$id)->with(['produkTokoDetails','produkTokoDetails.produkToko','produkTokoDetails.produkToko.toko'])->first();
         return view('admin.barang.show',[
             'barang' => $barang
         ]);

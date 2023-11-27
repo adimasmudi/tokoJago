@@ -61,12 +61,12 @@
                         </thead>
                         <tbody>
                             @if(count($toko->produkToko) > 0)
-                              @foreach($toko->produkToko[0]->produkTokoDetail as $detail)
+                              @foreach($toko->produkToko as $detail)
                                 <tr>
-                                  <td>{{$detail->barang_id}}</td>
-                                  <td>{{$detail->barang->nama}}</td>
-                                  <td>{{$detail->qty}}</td>
-                                  <td>{{$detail->harga}}</td>
+                                  <td>{{$detail->produkTokoDetail->first()->barang_id}}</td>
+                                  <td>{{$detail->produkTokoDetail->first()->barang->nama}}</td>
+                                  <td>{{$detail->produkTokoDetail->first()->qty}}</td>
+                                  <td>{{$detail->produkTokoDetail->first()->harga}}</td>
                                 </tr>
                               @endforeach
                             @endif
@@ -76,7 +76,7 @@
                 </div>
                 <div class="tab-pane" id="kasirToko">
                     <h4>Kasir di Toko</h4>
-                    <a href="/admin/toko/kasirToko" class="btn btn-primary w-25 mb-3">Tambah Kasir Toko</a>
+                    <a href="/admin/toko/kasirToko/{{$toko->id}}" class="btn btn-primary w-25 mb-3">Tambah Kasir Toko</a>
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -89,14 +89,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Marsupilami</td>
-                                <td>087345143111</td>
-                                <td>mars@gmial.com</td>
-                                <td>jln. raya Tellang</td>
-                                <td>mars43261</td>
-                            </tr>
+                            @if($kasirs)
+                              @foreach($kasirs as $kasir)
+                                <tr>
+                                  <td>{{$kasir->id}}</td>
+                                  <td>{{$kasir->nama}}</td>
+                                  <td>{{$kasir->no_telp}}</td>
+                                  <td>{{$kasir->email}}</td>
+                                  <td>{{$kasir->alamat}}</td>
+                                  <td>{{$kasir->password}}</td>
+                                </tr>
+                              @endforeach
+                            @endif
                             
                         </tbody>
                     </table>
