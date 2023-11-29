@@ -23,7 +23,7 @@
               <div class="card-body">
                   <div class="form-group">
                     <label for="Qty">Qty</label>
-                    <input type="number" class="form-control" id="Qty" name="Qty" placeholder="{{ $barang->barangGudangDetails->sum('qty') }}" value="{{ $barang->barangGudangDetails->sum('qty') }}">
+                    <input type="number" class="form-control" id="qty" name="qty" placeholder="{{ $barang->barangGudangDetails->sum('qty') }}" value="{{ $barang->barangGudangDetails->sum('qty') }}">
                   </div>
               </div>
               <!-- /.card-body -->

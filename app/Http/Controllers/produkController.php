@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use InvalidArgumentException;
 
 
+
 class ProdukController extends Controller
 {   
     protected $barang; // Ubah nama properti dari $barang menjadi $barang
@@ -30,10 +31,24 @@ class ProdukController extends Controller
         return view('kasir.produk.tambah');
     }
 
-    public function edit($id){
-        $barang = Barang::where('id', $id)->first();
-        return view('kasir.produk.edit', [
-            'barang' => $barang
-        ]);
+    public function edit($id)
+    {
+        $barang = Barang::with('barangGudangDetails')->find($id);
+        return view('kasir.produk.edit', compact('barang'));
     }
+
+    public function update(Request $request, String $id){
+        $barang = Barang::with('barangGudangDetails')->find($id);
+        $data = $request->validate([
+            'qty' => 'numeric',
+        ]);
+        foreach ($barang->barangGudangDetails as $barangGudangDetail) {
+            $barangGudangDetail->qty = $data['qty'];
+            $barangGudangDetail->save();
+        }
+        $barangs = Barang::with('barangGudangDetails')->paginate(10);
+        return redirect('/kasir/produk/')->with('barangs', $barangs);
+
+    }
+
 }

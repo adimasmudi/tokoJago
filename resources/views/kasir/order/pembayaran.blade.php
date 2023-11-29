@@ -33,8 +33,8 @@
                    <tr>
                      <td>{{ $customer->id }}</td>
                      <td>{{ $customer->nama }}</td>
-                     <td>{{ $customer->no_telepon }}</td>
-                     <td><input type="radio" id="customer" name="pembeli" value="{{ $customer->nama }}"></td>
+                     <td>{{ $customer->no_telp }}</td>
+                     <td><input type="radio" id="customer" name="customer" value="{{ $customer->id }}"></td>
                    </tr>
                   @empty
                    <p>Tidak ada pelanggan yang ditemukan.</p>
@@ -46,7 +46,11 @@
           </div>
           <div class="card">
             <div class="card-header p-2">
-              <p class="text-muted text-center">Harga Total :</p>
+              
+              <input type="date" id="tanggal" name="tanggal" value="{{ now()->toDateString() }}" Hidden>
+              <input type="integer" class="form-control" id="totalHarga" name="totalHarga" placeholder="11.000" value="{{$totalHarga}}" Hidden>
+                
+              <p class="text-muted text-center">Harga Total :{{$totalHarga}}</p>
 
             </div><!-- /.card-header -->
             
@@ -55,7 +59,7 @@
               <div>
                 <div id="pembayaran">
                     <h4>Form pembayaran</h4>
-                  <form method="POST" action="/kasir/order/bayar" enctype="multipart/form-data">
+                  <form method="GET" action="/kasir/order/bayar" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body d-flex flex-row justify-content-between">
                       <div>

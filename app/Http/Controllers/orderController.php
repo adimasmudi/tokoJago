@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Barang;
 use App\Models\OrderDetail;
+use App\Models\Order;
 use App\Models\Customer; 
 use Exception;
 use Illuminate\Support\Facades\Validator;
@@ -15,20 +16,14 @@ use DB;
 class OrderController extends Controller
 {
     protected $orderDetail;
+    protected $order;
     protected $barang;
 
-    public function __construct(OrderDetail $orderDetail, Barang $barang)
+    public function __construct(Order $order,OrderDetail $orderDetail, Barang $barang)
     {
+        $this->order = $order;
         $this->orderDetail = $orderDetail;
         $this->barang = $barang;
-    }
-
-    public function cart(){
-        $orderDetails = $this->orderDetail->with('barang')->paginate(10);
-
-        return view('kasir.order.cart', [
-            'orderDetails' => $orderDetails
-        ]);
     }
 
     public function index(){
@@ -38,38 +33,50 @@ class OrderController extends Controller
             'barangs' => $barangs
         ]);
     }
+    public function cart(){
+        $barangs = Barang::with('barangGudangDetails')->paginate(10);
 
-    public function pembayaran(){
-        $barangs = Barang::paginate(10);
-        $customers = Customer::all();
-    
-        return view('kasir.order.pembayaran', [
-            'barangs' => $barangs,
-            'customers' => $customers,
+        return view('kasir.order.cart', [
+            'barangs' => $barangs
         ]);
     }
-    public function addToCart(Request $request){
-        try {
-            $selectedBarangIds = $request->input('order');
-            DB::beginTransaction();
 
-            foreach ($selectedBarangIds as $barangId) {
-                $orderDetail = new OrderDetail([
-                    'barang_id' => $barangId,
-                    'qty' => 1, // Misalnya, setiap barang yang ditambahkan memiliki qty 1
-                ]);
+    public function pembayaran(Request $request){
+        $customers = Customer::all();
+        $totalHarga = $request->input('totalHarga');
+    
+        return view('kasir.order.pembayaran', [
+            'customers' => $customers,
+            'totalHarga' => $request->input('totalHarga'),
+        ]);
+    }
+    public function bayar(Request $request){
+        $data = $request->all();
 
-                $orderDetail->save();
-                }
+        try{
+            $validator = Validator::make($data,[
+                'id' => 'required',
+            ]);
+    
+            if ($validator->fails()) {
+                throw new InvalidArgumentException($validator->errors()->first());
+            }
 
-            DB::commit();
-            return redirect('/kasir/order/cart');
-        } catch (\Exception $e) {
-        // Jika terjadi kesalahan, rollback transaksi dan tangani kesalahan
-            DB::rollback();
-            return redirect()->back()->with('error', 'Gagal menambahkan barang ke keranjang.');
+            $dataBaru = new $this->order;
+            $databaru->harga_total = $data['totalHarga'];
+            $dataBaru->customer_id = $data['customer'];
+            $dataBaru->customer_type = null;
+            $dataBaru->deskripsi = null;
+            $dataBaru->tanggal = $data['tanggal'];
+            $dataBaru->save();
+
+            return redirect('/kasir/order');
+
+        }catch(Exception $e){
+            dd($e);
         }
     }
+    
 
 
 }

@@ -27,14 +27,18 @@
                           <td>{{ $customer->id }}</td>
                           <td>{{ $customer->nama }}</td>
                           <td>{{ $customer->no_telp }}</td>
-                          <td>10</td>
                           <td>
-                              <a href="../kasir/cutomer/edit/{{ $customer->id }}" class="btn btn-primary mx-2">
-                                edit
+                            <div class="d-flex flex-row">
+                              <a href="/kasir/customer/edit/{{$customer->id}}" class="btn btn-warning mx-2">
+                                  <i class="fas fa-edit"></i>
                               </a>
-                              <a href="#" class="btn btn-danger" id="delete" data-redirect="customer" data-url="customer/delete" data-id="">
-                                  <i class="fas fa-trash"></i>
-                              </a>
+                              <form method="POST"
+                                  action="/kasir/customer/delete/{{$customer->id}}">
+                                  @csrf
+                                  @method('DELETE')
+                                  <button class="btn btn-danger mx-2"><i class="fas fa-trash"></i></button>
+                              </form>
+                            </div>
                           </td>
                         </tr>
                       @empty

@@ -115,20 +115,24 @@ Route::group(['prefix' => 'kasir'], function(){
             Route::get('/', [customerController::class,'index']);
             Route::get('/tambah', [customerController::class, 'tambah']);
             Route::get('/edit/{id}', [customerController::class, 'edit']);
+            Route::post('/save', [customerController::class,'save']);
+            Route::post('/update/{id}', [customerController::class,'update']);
+            Route::delete('/delete/{id}', [customerController::class,'delete']);
 
         });
     
         Route::group(['prefix' => 'order'], function(){
             Route::get('/', [orderController::class,'index']);
             Route::get('/cart', [orderController::class, 'cart']);
-            Route::post('/cart', [orderController::class, 'addToCart']);
             Route::get('/pembayaran', [orderController::class, 'pembayaran']);
+            Route::get('/bayar', [orderController::class, 'bayar']);
             
         });
     
         Route::group(['prefix' => 'produk'], function(){
             Route::get('/', [ProdukController::class,'index']);
             Route::get('/edit/{id}', [ProdukController::class, 'edit']);
+            Route::post('/update/{id}',[ProdukController::class, 'update']);
         });
     
 });

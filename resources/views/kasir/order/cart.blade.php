@@ -20,21 +20,33 @@
                       <th style="width: 10px">ID</th>
                       <th>Nama</th>
                       <th>Harga</th>
+                      <th>jumlah tersedia</th>
                       <th>Qty</th>
                       <th>Total</th>
                     </tr>
                   </thead>
                   <tbody>
-                    @if($orderDetails)
-                      @forelse($orderDetails as $orderDetail)
+                    @php
+                      $totalHarga =0;
+                    @endphp
+                    @if($barangs)
+                      @forelse($barangs as $barang)
                       <tr>
-                          <td>{{ $orderDetail->id }}</td>
-                          <td>{{ $orderDetail->barang->nama }}</td>
-                          <td>{{ $orderDetail->barang->harga }}</td>
-                          <td>{{ $orderDetail->qty }}</td>
+                          <td>{{ $barang->id }}</td>
+                          <td>{{ $barang->nama }}</td>
+                          <td>{{ $barang->harga }}</td>
+                          <td>{{ $barang->barangGudangDetails->sum('qty') }}</td>
                           <td>
-                              {{ $orderDetail->qty * $orderDetail->barang->harga }}
+                            <input type="number" class="form-control" id="qty" name="qty" placeholder="1" >                          
                           </td>
+                          <td>
+                            @php
+                                $subtotal = 1 * $barang->harga;
+                                $totalHarga += $subtotal;
+                            @endphp
+                             {{ $subtotal }}
+                        </td>
+                          
                       </tr>
                       @empty
                       <p>Tidak ada barang yang ditemukan.</p>
@@ -44,7 +56,9 @@
                 </table>
                 
                 <div class="card-footer">
-                    <p>Harga Total : </p>
+                  <label>Total Harga :</label>
+                  <input type="integer" class="form-control" id="totalHarga" name="totalHarga" placeholder="{{$totalHarga}}" value="{{$totalHarga}}" disabled>
+                
                     <button type="submit" class="btn btn-primary">bayar</button>
                 </div>
               
