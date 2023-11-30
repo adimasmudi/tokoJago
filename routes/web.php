@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\KasirController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\GudangController;
@@ -108,9 +109,7 @@ Route::group(['prefix' => 'kasir'], function(){
         Route::get('/login', function(){
             return view('kasir.login');
         });
-        Route::get('/', function(){
-            return view('kasir.home');
-        });
+        Route::get('/kasir', [KasirController::class, 'home']);
     
         Route::group(['prefix' => 'customer'], function(){
             Route::get('/', [customerController::class,'index']);

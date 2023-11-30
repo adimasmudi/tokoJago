@@ -3,7 +3,7 @@
       <div class="container-fluid">
           <div class="row">
               <div class="col-md-12">
-                <a href="/kasir/order/struck" class="btn btn-primary w-25 mb-3">Order</a>
+                <a href="/kasir/order/create" class="btn btn-primary w-25 mb-3">create</a>
                   <div class="card">
                       <div class="card-header">
                           <h3 class="card-title">Tabel Order</h3>
