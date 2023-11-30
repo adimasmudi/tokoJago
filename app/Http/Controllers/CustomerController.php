@@ -18,7 +18,7 @@ class CustomerController extends Controller
     }
 
     public function index(){
-        $customers = customer::paginate(10); // Ubah nama model dari customer menjadi customer
+        $customers = customer::paginate(10); 
         return view('kasir.customer.index', [
             'customers' => $customers // Ubah nama variabel dari $customers menjadi $customers
         ]);

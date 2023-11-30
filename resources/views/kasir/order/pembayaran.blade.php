@@ -11,47 +11,40 @@
 
               <h3 class="profile-username text-center">Pembayaran</h3>
 
-              <p class="text-muted text-center">Jenis Customer</p>
-
-              <input type="radio" name="options" id="option1" checked>
-              <label for="option1">Walk in</label>
-              <input type="radio" name="options" id="option2">
-              <label for="option2">Member</label>
-
-              <div id="hiddenList">
               <table class="table table-bordered">
                 <thead>
-                    <tr>
+                  <tr>
                     <th style="width: 10px">ID</th>
-                    <th>Nama</th>
-                    <th>No Telepon</th>
-                    <th>Action</th>
-                    </tr>
+                    <th>Nama Barang</th>
+                    <th>Harga</th>
+                    <th>Qty</th>
+                    <th>harga total</th>
+                  </tr>
                 </thead>
                 <tbody>
-                  @forelse($customers as $customer)
-                   <tr>
-                     <td>{{ $customer->id }}</td>
-                     <td>{{ $customer->nama }}</td>
-                     <td>{{ $customer->no_telp }}</td>
-                     <td><input type="radio" id="customer" name="customer" value="{{ $customer->id }}"></td>
-                   </tr>
-                  @empty
-                   <p>Tidak ada pelanggan yang ditemukan.</p>
-                  @endforelse            
+                  @if($orderDetail)
+                    @forelse($orderDetail as $orderDetail)
+                    <tr>
+                      <td>{{ $orderDetail->id }}</td>
+                      <td>{{ $orderDetail->produk_toko_id }}
+                        <input type="text" class="form-control" id="id[]" name="id[]" value="{{ $orderDetail->produk_toko_id }}"hidden> </td>
+                      <td>{{ $orderDetail->harga }}</td>
+                      <td>{{ $orderDetail->qty }}<input type="number" class="form-control" id="qty[]" name="qty[]"value="{{ $orderDetail->qty }}"hidden ></td>
+                      <td>{{ $orderDetail->harga * $orderDetail->qty  }}</td>
+                    </tr>
+                    @empty
+                    <p>Tidak ada barang yang ditemukan.</p>
+                    @endforelse
+                  @endif
                 </tbody>
               </table>
-              </div>
             </div>
           </div>
           <div class="card">
             <div class="card-header p-2">
+                <p class="text-muted text-center">Harga Total :       </p>
+                <p class="text-muted text-center">{{$order->harga_total}} </p>
               
-              <input type="date" id="tanggal" name="tanggal" value="{{ now()->toDateString() }}" Hidden>
-              <input type="integer" class="form-control" id="totalHarga" name="totalHarga" placeholder="11.000" value="{{$totalHarga}}" Hidden>
-                
-              <p class="text-muted text-center">Harga Total :{{$totalHarga}}</p>
-
             </div><!-- /.card-header -->
             
 
@@ -65,16 +58,17 @@
                       <div>
                         <div class="form-group">
                           <p for="MEtode bayar">Metode Bayar</p>
-                          <input type="radio" name="metode" id="metode1" checked>
+                          <input type="radio" name="metode" id="cash" checked>
                           <label for="metode1">Cash</label>
-                          <input type="radio" name="metode" id="metode2">
+                          <input type="radio" name="metode" id="e-pay">
                           <label for="metode2">Electronic pay</label>
                         </div>
                       </div>
                       <div>
                         <div class="form-group">
                           <label for="jumlah_bayar">Jumlah Bayar</label>
-                          <input type="disabled" class="form-control" id="jumlah_bayar" name="jumlah_bayar" value="######">
+                          <input type="text" class="form-control" id="jumlah_bayar" name="jumlah_bayar" >
+                          <input type="text" class="form-control" id="harga" name="harga" value="{{$order->harga_total}}"hidden>
                         </div>
                       </div>
                     </div>
