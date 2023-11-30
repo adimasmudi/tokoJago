@@ -16,12 +16,12 @@
               @csrf
               <div class="card-body">
                 <div>
-                    <h6>Nama Toko</h6>
-                    <h6>Alamat</h6>
+                    <h6>Nama Toko : {{$toko->nama}}</h6>
+                    <h6>Alamat : {{$toko->alamat}}</h6>
                 </div>
                   <div class="form-group">
-                    <label for="nama_kasir">Nama Kasir</label>
-                    <input type="text" class="form-control" id="nama_kasir" name="nama_kasir" placeholder="Masukkan Nama Kasir">
+                    <label for="nama">Nama Kasir</label>
+                    <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Kasir">
                   </div>
                   <div class="form-group">
                     <label for="no_telp">no telepon</label>
@@ -40,6 +40,7 @@
                     <textarea name="alamat" id="alamat" class="form-control" cols="30" rows="10" name="alamat"></textarea>
                   </div>
               </div>
+              <input type="hidden" name="toko_id" value="{{request()->route('id')}}">
               <!-- /.card-body -->
 
               <div class="card-footer">
