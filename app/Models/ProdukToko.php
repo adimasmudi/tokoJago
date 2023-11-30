@@ -24,8 +24,7 @@ class ProdukToko extends Model
     public function orderDetail(): HasMany
     {
         return $this->hasMany(OrderDetail::class);
-    }
-
+  
     public function toko(){
         return $this->belongsTo(Toko::class);
     }

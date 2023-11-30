@@ -93,3 +93,5 @@ class BarangController extends Controller
         return redirect('/admin/barang');
     }
 }
+
+

@@ -10,6 +10,21 @@ class Order extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'customer_id',
+        'customer_type',
+        'tanggal',
+        'harga_total',
+        'catatan',
+        // tambahkan kolom lainnya yang perlu di-mass-assign
+    ];
+
+    protected $attributes = [
+        'catatan' => null,
+        'customer_type' => "member",
+        // tambahkan nilai default untuk kolom lainnya
+    ];
+
     /**
      * Get the orderDetail for order
      */

@@ -7,6 +7,9 @@ use App\Http\Controllers\GudangController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TokoController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\orderController;
+use App\Http\Controllers\ProdukController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +25,7 @@ use App\Http\Controllers\BarangController;
 Route::get('/', function () {
     return view('welcome');
 });
+
 
 Route::group(['prefix' => 'admin'], function(){
     Route::get('/login', function(){
@@ -98,4 +102,41 @@ Route::group(['prefix' => 'admin'], function(){
         Route::post('/update/{id}', [BarangController::class,'update']);
         Route::delete('/delete/{id}', [BarangController::class,'delete']);
     });
+});
+
+Route::group(['prefix' => 'kasir'], function(){
+        Route::get('/login', function(){
+            return view('kasir.login');
+        });
+        Route::get('/', function(){
+            return view('kasir.home');
+        });
+    
+        Route::group(['prefix' => 'customer'], function(){
+            Route::get('/', [customerController::class,'index']);
+            Route::get('/tambah', [customerController::class, 'tambah']);
+            Route::get('/edit/{id}', [customerController::class, 'edit']);
+            Route::post('/save', [customerController::class,'save']);
+            Route::post('/update/{id}', [customerController::class,'update']);
+            Route::delete('/delete/{id}', [customerController::class,'delete']);
+
+        });
+    
+        Route::group(['prefix' => 'order'], function(){
+            Route::get('/', [orderController::class,'index']);
+            Route::get('/cart', [orderController::class, 'cart']);
+            Route::get('/pembayaran', [orderController::class, 'pembayaran']);
+            Route::get('/bayar', [orderController::class, 'bayar']);
+            Route::get('/addOrder', [orderController::class, 'addOrder']);
+            Route::get('/create', [orderController::class, 'create']);
+            Route::get('/pilih', [orderController::class, 'pilih']);
+            
+        });
+    
+        Route::group(['prefix' => 'produk'], function(){
+            Route::get('/', [ProdukController::class,'index']);
+            Route::get('/edit/{id}', [ProdukController::class, 'edit']);
+            Route::post('/update/{id}',[ProdukController::class, 'update']);
+        });
+    
 });

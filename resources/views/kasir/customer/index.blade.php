@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <a href="tambah.blade.php" class="btn btn-primary w-25 mb-3">Tambah</a>
+          <a href="../kasir/customer/tambah" class="btn btn-primary w-25 mb-3">Tambah</a>
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">Tabel Customer</h3>
@@ -21,21 +21,30 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Customer 1</td>
-                        <td>2654742354</td>
-                        <td>
-                        <a href="/kasir/customer/edit" class="btn btn-primary mx-2">
-                          edit
-                        </a>
-                        </td>
-                        <a href="#" class="btn btn-danger" id="delete" data-redirect="customer" data-url="customer/delete" data-id="">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                        </td>
-                    </tr>
-                    
+                    @if($customers)
+                      @forelse($customers as $customer)
+                        <tr>
+                          <td>{{ $customer->id }}</td>
+                          <td>{{ $customer->nama }}</td>
+                          <td>{{ $customer->no_telp }}</td>
+                          <td>
+                            <div class="d-flex flex-row">
+                              <a href="/kasir/customer/edit/{{$customer->id}}" class="btn btn-warning mx-2">
+                                  <i class="fas fa-edit"></i>
+                              </a>
+                              <form method="POST"
+                                  action="/kasir/customer/delete/{{$customer->id}}">
+                                  @csrf
+                                  @method('DELETE')
+                                  <button class="btn btn-danger mx-2"><i class="fas fa-trash"></i></button>
+                              </form>
+                            </div>
+                          </td>
+                        </tr>
+                      @empty
+                        <p>Tidak ada customer yang ditemukan.</p>
+                      @endforelse
+                    @endif
                   </tbody>
                 </table>
               </div>

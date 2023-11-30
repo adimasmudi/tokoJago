@@ -9,12 +9,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class BarangGudangDetail extends Model
 {
     use HasFactory;
-
     /**
-     * Get the barang that owns the barangGudangDetail.
+     * The attributes that are mass assignable.
+     *
+     * @var array
      */
+    protected $fillable = ['qty'];
     public function barang(): BelongsTo
     {
+        
         return $this->belongsTo(Barang::class);
     }
 }

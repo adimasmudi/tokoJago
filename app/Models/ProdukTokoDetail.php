@@ -12,7 +12,6 @@ class ProdukTokoDetail extends Model
     public function barang(){
         return $this->belongsTo(Barang::class);
     }
-
     public function produkToko(){
         return $this->belongsTo(ProdukToko::class);
     }
