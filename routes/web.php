@@ -12,6 +12,8 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\orderController;
 use App\Http\Controllers\ProdukController;
 
+use Illuminate\Support\Facades\DB;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,6 +27,15 @@ use App\Http\Controllers\ProdukController;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/check_db', function() {
+    try {
+        DB::connection('sqlsrv')->getPDO();
+        echo DB::connection()->getDatabaseName();
+    } catch (\Exception $e) {
+        dd($e);
+    }
 });
 
 
