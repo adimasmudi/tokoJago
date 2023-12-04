@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Barang;
+use App\Models\BarangGudangDetail;
 use App\Models\OrderDetail;
 use App\Models\OrderPayment;
 use App\Models\Order;
@@ -20,14 +21,14 @@ class OrderController extends Controller
     protected $order;
     protected $barang;
     protected $customer;
-    protected $BarangGudangDetails;
+    protected $BarangGudangDetail;
 
     
 
-    public function __construct(BarangGudangDetails $BarangGudangDetails, customer $customer, order $order, Orderpayment $orderpayment,OrderDetail $orderDetail, Barang $barang)
+    public function __construct(BarangGudangDetail $BarangGudangDetail, customer $customer, order $order, Orderpayment $orderpayment,OrderDetail $orderDetail, Barang $barang)
     {
         $this->order = $order;
-        $this->BarangGudangDetails;
+        $this->BarangGudangDetail= $BarangGudangDetail;
         $this->orderDetail = $orderDetail;
         $this->orderpayment = $orderpayment;
         $this->barang = $barang;
@@ -42,7 +43,7 @@ class OrderController extends Controller
         ]);
     }
     public function pilih(Request $request){
-        $barangs = Barang::with('barangGudangDetails')->paginate(10);
+        $barangs = Barang::with('BarangGudangDetails')->paginate(10);
         $orderId = $request->input('order_id');
         return view('kasir.order.pilih',[
             'barangs' => $barangs,
@@ -128,19 +129,21 @@ class OrderController extends Controller
         }
     }   
     
+    public function detail(Request $request, String $id){
+        $orderDetail=$this->orderDetail::where('order_id',$id)->get();
+
+        return view('kasir.order.show',[
+            'orderDetail' => $orderDetail,
+        ]);
+    }
+    
     public function bayar(Request $request){
         $selectedids = $request->input('id', []);
         $qty = $request->input('qty', []); 
-        $bgd = $this->BarangGudangDetails::find($selectedids);
         $harga = $request->input('harga');        
         $bayar = $request->input('jumlah_bayar');
         $metode = $request->input('metode');
-        $kembalian=intv($bayar)-intv($harga);
-        foreach ($qty as $index => $quantity) {
-            $terjual=$bgd->qty-$quantity;
-        }
-        $bgd->qty=$terjual;
-        $bgd->save();
+        $kembalian=intv($bayar)-intv($harga);   
 
         try {
             Orderpayment::create([

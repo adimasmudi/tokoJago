@@ -3,7 +3,7 @@
       <div class="container-fluid">
           <div class="row">
               <div class="col-md-12">
-                <a href="/kasir/order/struck" class="btn btn-primary w-25 mb-3">Order</a>
+                <a href="/kasir/order/create" class="btn btn-primary w-25 mb-3">create</a>
                   <div class="card">
                       <div class="card-header">
                           <h3 class="card-title">Tabel Order</h3>
@@ -29,13 +29,18 @@
                                 <td>{{ $order->customer_id }}</td>
                                 <td>{{ $order->tanggal }}</td>
                                 <td>{{ $order->harga_total }}</td>
-                                <td>{{ $order->catatan }}</td>
+                                <td><textarea id="catatan" class="form-control" cols="10" rows="1" name="catatan">{{ $order->catatan }}</textarea>
+                                </td>
                                 <td>{{ $order->customer_type }}</td>
                                 <td> 
                                   <div class="d-flex flex-row">
-                                      <a href="/kasir/order/edit" class="btn btn-warning mx-2">
-                                          <i class="fas fa-edit"></i>
-                                      </a>                                 
+                                      
+                                      <form method="GET" action="/kasir/order/detail">
+                                        <input type="text" class="btn btn-warning mx-2" id="id" name="id" value="{{$order->id}}" hidden>
+              
+                                        <button >detail</i></button>
+                                    </form>
+                                                                     
                                       <form method="GET" action="/kasir/order/pilih">
                                           <input type="text" class="form-control" id="order_id" name="order_id" value="{{$order->id}}" hidden>
                 
