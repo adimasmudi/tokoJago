@@ -8,7 +8,7 @@
           <!-- small box -->
           <div class="small-box bg-info">
             <div class="inner">
-              <h3></h3>
+              <h3>{{$produk}}</h3>
 
               <p>Jumlah Produk</p>
             </div>
@@ -23,7 +23,7 @@
           <!-- small box -->
           <div class="small-box bg-success">
             <div class="inner">
-              <h3>{{$order}}<sup style="font-size: 20px">%</sup></h3>
+              <h3>{{$order}}</h3>
 
               <p>Jumlah Order</p>
             </div>
@@ -47,8 +47,11 @@
               <i class="ion ion-pie-graph"></i>
             </div>
             <a href="/kasir/customer/" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-          </div>
+          </div> 
         </div>
+        
+        <input type="text" class="form-control" id="toko_id" name="toko_id" value="{{$toko_id}}"hidden> 
+                  
         <!-- ./col -->
       </div>
       <!-- /.row (main row) -->

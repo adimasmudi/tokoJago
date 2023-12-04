@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Barang; // Ubah nama model yang diimpor menjadi barang
-use App\Models\BarangGudangDetail; // Ubah nama model yang diimpor menjadi barang
+use App\Models\ProdukToko; 
+use App\Models\ProdukTokoDetail; 
 use Exception;
 use Illuminate\Support\Facades\Validator;
 use InvalidArgumentException;
@@ -13,17 +13,19 @@ use InvalidArgumentException;
 
 class ProdukController extends Controller
 {   
-    protected $barang; // Ubah nama properti dari $barang menjadi $barang
+    protected $ProdukToko; 
 
-    public function __construct(Barang $barang)
+    public function __construct(ProdukToko $ProdukToko, ProdukTokoDetail $ProdukTokoDetail)
     {
-        $this->barang = $barang; // Ubah nama properti dari $barang menjadi $barang
+        $this->ProdukTokoDetail = $ProdukTokoDetail;
+        $this->ProdukToko = $ProdukToko; 
     }
 
-    public function index(){
-        $barangs = Barang::with('barangGudangDetails')->paginate(10);
+    public function index(Request $request){
+        $toko_id = $request->session()->get('toko_id');
+        $produk=ProdukToko::where('toko_id',$toko_id)->get();
         return view('kasir.produk.index', [
-            'barangs' => $barangs
+            'produk' => $produk,
         ]);
     }
 
@@ -33,21 +35,21 @@ class ProdukController extends Controller
 
     public function edit($id)
     {
-        $barang = Barang::with('barangGudangDetails')->find($id);
+        $barang = ProdukToko::with('ProdukTokoDetail')->find($id);
         return view('kasir.produk.edit', compact('barang'));
     }
 
     public function update(Request $request, String $id){
-        $barang = Barang::with('barangGudangDetails')->find($id);
+        $ProdukToko = ProdukToko::with('ProdukTokoDetail')->find($id);
         $data = $request->validate([
             'qty' => 'numeric',
         ]);
-        foreach ($barang->barangGudangDetails as $barangGudangDetail) {
-            $barangGudangDetail->qty = $data['qty'];
-            $barangGudangDetail->save();
+        foreach ($ProdukToko->ProdukTokoDetails as $ProdukTokoDetail) {
+            $ProdukTokoDetail->qty = $data['qty'];
+            $ProdukTokoDetail->save();
         }
-        $barangs = Barang::with('barangGudangDetails')->paginate(10);
-        return redirect('/kasir/produk/')->with('barangs', $barangs);
+        $ProdukTokos = ProdukToko::with('ProdukTokoDetail')->paginate(10);
+        return redirect('/kasir/produk/')->with('barangs', $ProdukTokos);
 
     }
 

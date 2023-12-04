@@ -7,7 +7,7 @@
       </div>
       <!-- /.card-header -->
       <!-- form start -->
-      <form class="form-horizontal" method="GET" action="/kasir/login">
+      <form class="form-horizontal" method="POST" action="/kasir/login">
         @csrf
         <div class="card-body">
           <div class="form-group row">
@@ -33,8 +33,7 @@
         <!-- /.card-body -->
         <div class="card-footer">
           <button type="submit" class="btn btn-info">Log in</button>
-          <a href="/" class="btn btn-warning mx-2"> cancel
-          </a>
+          <button type="submit" class="btn btn-default float-right">Cancel</button>
         </div>
         <!-- /.card-footer -->
       </form>

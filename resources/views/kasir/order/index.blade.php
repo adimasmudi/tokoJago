@@ -38,15 +38,15 @@
                                       <form method="GET" action="/kasir/order/detail">
                                         <input type="text" class="btn btn-warning mx-2" id="id" name="id" value="{{$order->id}}" hidden>
               
-                                        <button >detail</i></button>
+                                        <button>detail</i></button>
                                     </form>
                                                                      
-                                      <form method="GET" action="/kasir/order/pilih">
-                                          <input type="text" class="form-control" id="order_id" name="order_id" value="{{$order->id}}" hidden>
+                                    <form method="GET" action="/kasir/order/pilih">
+                                        <input type="text" class="form-control" id="order_id" name="order_id" value="{{$order->id}}" hidden>
                 
-                                          <button >order</i></button>
-                                      </form>
-                                    </div>
+                                        <button>order</i></button>
+                                    </form>
+                                  </div>
                                 </td>
                               </tr>
                               @empty

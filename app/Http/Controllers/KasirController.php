@@ -30,14 +30,15 @@ class KasirController extends Controller
         $this->customer = $customer;
     }
     public function home(Request $request){
-        dd($request);
+        $toko_id = $request->session()->get('toko_id');
+        $produk_toko=ProdukToko::where('toko_id',$toko_id)->get();
         $customer = count($this->customer->get());
-        $produk = count($this->barang->get());
+        $produk= count($this->toko->get());
         $order = count($this->order->get());
-        dd($customer);
         return view('kasir.home',[
-            'gudang' => $customer,
+            'customer' => $customer,
             'produk' => $produk,
+            'toko_id' => $toko_id,
             'order' => $order,
         ]);
     }
@@ -46,9 +47,14 @@ class KasirController extends Controller
         $email = $request->input('email');
         $password = $request->input('password');
         $kasir = Kasir::where('email',$email)->get();
-        $id= $kasir->toko_id;
-        return view('kasir.home');
+        $id=2;
+        $request->session()->put('toko_id', $id);
+        return redirect('/kasir/loginHome/');
     }
 
-    
+    public function loginpage(){
+        $request->session()->forget('toko_id');
+
+        return view('Kasir.login');
+    }
 }
