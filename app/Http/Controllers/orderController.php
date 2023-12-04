@@ -25,7 +25,7 @@ class OrderController extends Controller
 
     
 
-    public function __construct(BarangGudangDetail $BarangGudangDetail, customer $customer, order $order, Orderpayment $orderpayment,OrderDetail $orderDetail, Barang $barang)
+    public function __construct(BarangGudangDetail $BarangGudangDetail, Customer $customer, Order $order, Orderpayment $orderpayment,OrderDetail $orderDetail, Barang $barang)
     {
         $this->order = $order;
         $this->BarangGudangDetail= $BarangGudangDetail;
@@ -73,7 +73,7 @@ class OrderController extends Controller
     public function addOrder(Request $request){
         $customerId = $request->input('customer');
         $barangs = Barang::with('barangGudangDetails')->paginate(10);
-        $orders = this->order>paginate(10);
+        $orders = $this->order->paginate(10);
         $tanggal = Carbon::now();
         try {
             $order = Order::create([
