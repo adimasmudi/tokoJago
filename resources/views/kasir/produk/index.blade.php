@@ -21,15 +21,15 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @if($barangs)
-                      @forelse($barangs as $barang)
+                    @if($produk)
+                      @forelse($produk as $p)
                         <tr>
-                          <td>{{ $barang->id }}</td>
-                          <td>{{ $barang->nama }}</td>
-                          <td>{{ $barang->harga }}</td>
-                          <td>{{ $barang->barangGudangDetails->sum('qty') }}</td>
+                          <td>{{ $p->id }}</td>
+                          <td>{{ $p->produkTokoDetail->sum('nama') }}</td>
+                          <td>{{ $p->ProdukTokoDetail->sum('harga') }}</td>
+                          <td>{{ $p->ProdukTokoDetail->sum('qty') }}</td>
                           <td>
-                              <a href="../kasir/produk/edit/{{ $barang->id }}" class="btn btn-primary mx-2">
+                              <a href="../kasir/produk/edit/{{ $p->id }}" class="btn btn-primary mx-2">
                                 edit
                               </a>
                           </td>
@@ -41,6 +41,7 @@
                   </tbody>
                 </table>
               </div>
+              
               
             </div>
             
