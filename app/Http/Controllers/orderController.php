@@ -128,6 +128,13 @@ class OrderController extends Controller
             dd($e);
         }
     }   
+    public function detail(Request $request, String $id){
+        $orderDetail=$this->orderDetail::where('order_id',$id)->get();
+
+        return view('kasir.order.show',[
+            'orderDetail' => $orderDetail,
+        ]);
+    }
     
     public function bayar(Request $request){
         $selectedids = $request->input('id', []);

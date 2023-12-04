@@ -29,13 +29,15 @@
                                 <td>{{ $order->customer_id }}</td>
                                 <td>{{ $order->tanggal }}</td>
                                 <td>{{ $order->harga_total }}</td>
-                                <td>{{ $order->catatan }}</td>
+                                <td><textarea id="catatan" class="form-control" cols="10" rows="1" name="catatan">{{ $order->catatan }}</textarea>
+                                </td>
                                 <td>{{ $order->customer_type }}</td>
                                 <td> 
                                   <div class="d-flex flex-row">
-                                      <a href="/kasir/order/edit" class="btn btn-warning mx-2">
-                                          <i class="fas fa-edit"></i>
-                                      </a>                                 
+                                      <a href="/kasir/order/detail/{{ $order->id }}" class="btn btn-warning mx-2">
+                                        detail
+                                      </a>
+                                                                     
                                       <form method="GET" action="/kasir/order/pilih">
                                           <input type="text" class="form-control" id="order_id" name="order_id" value="{{$order->id}}" hidden>
                 
