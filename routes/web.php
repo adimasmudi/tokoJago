@@ -129,7 +129,7 @@ Route::group(['prefix' => 'kasir'], function(){
             Route::get('/addOrder', [orderController::class, 'addOrder']);
             Route::get('/create', [orderController::class, 'create']);
             Route::get('/pilih', [orderController::class, 'pilih']);
-            Route::get('/detail/{id}', [orderController::class, 'detail']);
+            Route::get('/detail/{id}', [SupplierController::class, 'detail']);
             
         });
     

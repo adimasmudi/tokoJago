@@ -34,9 +34,12 @@
                                 <td>{{ $order->customer_type }}</td>
                                 <td> 
                                   <div class="d-flex flex-row">
-                                      <a href="/kasir/order/detail/{{ $order->id }}" class="btn btn-warning mx-2">
-                                        detail
-                                      </a>
+                                      
+                                      <form method="GET" action="/kasir/order/detail">
+                                        <input type="text" class="btn btn-warning mx-2" id="id" name="id" value="{{$order->id}}" hidden>
+              
+                                        <button >detail</i></button>
+                                    </form>
                                                                      
                                       <form method="GET" action="/kasir/order/pilih">
                                           <input type="text" class="form-control" id="order_id" name="order_id" value="{{$order->id}}" hidden>

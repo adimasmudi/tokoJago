@@ -128,6 +128,7 @@ class OrderController extends Controller
             dd($e);
         }
     }   
+    
     public function detail(Request $request, String $id){
         $orderDetail=$this->orderDetail::where('order_id',$id)->get();
 
