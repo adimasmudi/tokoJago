@@ -15,16 +15,16 @@
               @csrf
               <div class="card-body">
                 <div class="form-group">
-                  <label for="nama">Nama Barang</label>
-                  <input type="text" class="form-control" id="nama" name="nama" placeholder="{{$barang->nama}}" value="{{$barang->nama}}" disabled>
+                  <label for="nama">Id Barang</label>
+                  <input type="text" class="form-control" id="nama" name="nama" placeholder="{{$barang->id}}" value="{{$barang->nama}}" disabled>
                 </div>
                 <div class="form-group">
               </div>
               <div class="card-body">
-                  <div class="form-group">
-                    <label for="Qty">Qty</label>
-                    <input type="number" class="form-control" id="qty" name="qty" placeholder="{{ $barang->ProdukTokoDetail->sum('qty') }}" value="{{ $barang->ProdukTokoDetail->sum('qty') }}">
-                  </div>
+                <div class="form-group">
+                  <label for="Qty">Qty</label>
+                  <input type="number" class="form-control" id="qty" name="qty" placeholder="{{ $barang->ProdukTokoDetail->sum('qty') }}" value="{{ $barang->ProdukTokoDetail->sum('qty') }}">
+                </div>
               </div>
               <!-- /.card-body -->
 

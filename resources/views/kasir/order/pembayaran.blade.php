@@ -27,9 +27,9 @@
                     <tr>
                       <td>{{ $orderDetail->id }}</td>
                       <td>{{ $orderDetail->produk_toko_id }}
-                        <input type="text" class="form-control" id="id[]" name="id[]" value="{{ $orderDetail->produk_toko_id }}"hidden> </td>
+                        <input type="text" class="form-control" id="id[]" name="id[]" value="{{ $orderDetail->produk_toko_id }}" hidden> </td>
                       <td>{{ $orderDetail->harga }}</td>
-                      <td>{{ $orderDetail->qty }}<input type="number" class="form-control" id="qty[]" name="qty[]"value="{{ $orderDetail->qty }}"hidden ></td>
+                      <td>{{ $orderDetail->qty }}<input type="number" class="form-control" id="qty[]" name="qty[]"value="{{ $orderDetail->qty }}" hidden ></td>
                       <td>{{ $orderDetail->harga * $orderDetail->qty  }}</td>
                     </tr>
                     @empty
@@ -58,10 +58,10 @@
                       <div>
                         <div class="form-group">
                           <p for="MEtode bayar">Metode Bayar</p>
-                          <input type="radio" name="metode" id="cash" checked>
-                          <label for="metode1">Cash</label>
-                          <input type="radio" name="metode" id="e-pay">
-                          <label for="metode2">Electronic pay</label>
+                          <input type="radio" name="metode" id="cash"value="cash" checked>
+                          <label for="cash">Cash</label>
+                          <input type="radio" name="metode" id="e-pay" value="e-pay">
+                          <label for="e-pay">Electronic pay</label>
                         </div>
                       </div>
                       <div>

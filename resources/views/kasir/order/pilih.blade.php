@@ -23,22 +23,28 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if($barangs)
-                                @forelse($barangs as $barang)
+                          @if($produk)
+                            @forelse($produk as $p)
                                 <tr>
-                                <td>{{ $barang->id }}</td>
-                                <td>{{ $barang->nama }}</td>
-                                <td>{{ $barang->harga }}</td>
-                                <td>{{ $barang->barangGudangDetails->sum('qty') }}</td>
-                                <td>
-                                    <input type="checkbox"id="barang[]" name="barang[]" value={{ $barang->id }}>
-                                                
-                                </td>
+                                    <td>{{$p->produkTokoDetail->sum('id')}}</td>
+                                    <td>
+                                        @forelse($p->produkTokoDetail as $detail)
+                                            {{$detail->barang->nama}}
+                                        @empty
+                                            N/A
+                                        @endforelse
+                                    </td>
+                                    <td>{{$p->produkTokoDetail->sum('harga')}}</td>
+                                    <td>{{$p->produkTokoDetail->sum('qty')}}</td>
+                                    <td>
+                                      <input type="checkbox"id="barang[]" name="barang[]" value={{ $p->id }}>
+                                                  
+                                    </td>
                                 </tr>
-                                @empty
+                            @empty
                                 <p>Tidak ada barang yang ditemukan.</p>
-                                @endforelse
-                            @endif
+                            @endforelse
+                          @endif
                         </tbody>
                     </table>
                         <input type="text" class="form-control" id="order_id" name="order_id" value="{{$orderId}}"hidden >

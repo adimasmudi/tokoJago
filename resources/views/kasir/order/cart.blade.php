@@ -15,7 +15,6 @@
                   <thead>
                     <tr>
                       <th style="width: 10px">ID</th>
-                      <th>Nama</th>
                       <th>Harga</th>
                       <th>jumlah tersedia</th>
                       <th>jumlah dibeli</th>
@@ -26,9 +25,8 @@
                       @forelse($barangs as $barang)
                       <tr>
                         <td>{{ $barang->id }}<input type="text" class="form-control" id="id[]" name="id[]" value="{{$barang->id}}"hidden></td>
-                        <td>{{ $barang->nama }}</td>
-                        <td>{{ $barang->harga }}</td>
-                        <td>{{ $barang->barangGudangDetails->sum('qty') }}</td>
+                        <td>{{ $barang->ProdukTokoDetail->sum('harga') }}</td>
+                        <td>{{ $barang->ProdukTokoDetail->sum('qty') }}</td>
                         <td>
                           <input type="number" class="form-control" id="qty[]" name="qty[]" placeholder="0" >                          
                         </td>
