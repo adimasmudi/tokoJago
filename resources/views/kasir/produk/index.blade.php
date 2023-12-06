@@ -13,7 +13,7 @@
                 <table class="table table-bordered">
                   <thead>
                     <tr>
-                      <th style="width: 10px">No</th>
+                      <th style="width: 10px">ID</th>
                       <th>Nama Barang</th>
                       <th>Harga</th>
                       <th>Qty</th>
@@ -22,27 +22,33 @@
                   </thead>
                   <tbody>
                     @if($produk)
-                      @forelse($produk as $p)
-                        <tr>
-                          <td>{{ $p->id }}</td>
-                          <td>{{ $p->produkTokoDetail->sum('nama') }}</td>
-                          <td>{{ $p->ProdukTokoDetail->sum('harga') }}</td>
-                          <td>{{ $p->ProdukTokoDetail->sum('qty') }}</td>
-                          <td>
-                              <a href="../kasir/produk/edit/{{ $p->id }}" class="btn btn-primary mx-2">
-                                edit
-                              </a>
-                          </td>
-                        </tr>
-                      @empty
-                        <p>Tidak ada barang yang ditemukan.</p>
-                      @endforelse
+                        @forelse($produk as $p)
+                            <tr>
+                                <td>{{$p->produkTokoDetail->sum('id')}}</td>
+                                <td>
+                                    @forelse($p->produkTokoDetail as $detail)
+                                        {{$detail->barang->nama}}
+                                    @empty
+                                        N/A
+                                    @endforelse
+                                </td>
+                                <td>{{$p->produkTokoDetail->sum('harga')}}</td>
+                                <td>{{$p->produkTokoDetail->sum('qty')}}</td>
+                                <td>
+                                    <a href="../kasir/produk/edit/{{$p->id}}" class="btn btn-primary mx-2">
+                                        edit
+                                    </a>
+                                </td>
+                            </tr>
+                        @empty
+                            <p>Tidak ada barang yang ditemukan.</p>
+                        @endforelse
                     @endif
                   </tbody>
+                
+                  
                 </table>
               </div>
-              
-              
             </div>
             
           </div>

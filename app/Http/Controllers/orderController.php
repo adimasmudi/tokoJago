@@ -10,6 +10,8 @@ use App\Models\OrderPayment;
 use App\Models\Order;
 use App\Models\Customer; 
 use Exception;
+use App\Models\ProdukToko; 
+use App\Models\ProdukTokoDetail; 
 use Illuminate\Support\Facades\Validator;
 use InvalidArgumentException;
 use Carbon\Carbon;
@@ -17,22 +19,25 @@ use Carbon\Carbon;
 
 class OrderController extends Controller
 {
+    protected $orderPayment;
     protected $orderDetail;
     protected $order;
     protected $barang;
     protected $customer;
-    protected $BarangGudangDetail;
+    protected $ProdukToko;
+    protected $ProdukTokoDeatil; 
 
     
 
-    public function __construct(BarangGudangDetail $BarangGudangDetail, Customer $customer, Order $order, Orderpayment $orderpayment,OrderDetail $orderDetail, Barang $barang)
+    public function __construct(ProdukToko $ProdukToko, ProdukTokoDetail $ProdukTokoDetail, Customer $customer, Order $order, OrderPayment $orderPayment,OrderDetail $orderDetail, Barang $barang)
     {
         $this->order = $order;
-        $this->BarangGudangDetail= $BarangGudangDetail;
         $this->orderDetail = $orderDetail;
-        $this->orderpayment = $orderpayment;
+        $this->orderPayment = $orderPayment;
         $this->barang = $barang;
         $this->customer = $customer; 
+        $this->ProdukTokoDetail = $ProdukTokoDetail;
+        $this->ProdukToko = $ProdukToko;
     }
 
     public function index(){
@@ -43,10 +48,11 @@ class OrderController extends Controller
         ]);
     }
     public function pilih(Request $request){
-        $barangs = Barang::with('BarangGudangDetails')->paginate(10);
+        $id = $request->session()->get('toko_id');
+        $produk= $this->ProdukToko::where('toko_id',$id)->with(['produkTokoDetail', 'produkTokoDetail.barang'])->get();
         $orderId = $request->input('order_id');
         return view('kasir.order.pilih',[
-            'barangs' => $barangs,
+            'produk' => $produk,
             'orderId' => $orderId
         ]);
     }
@@ -63,7 +69,7 @@ class OrderController extends Controller
         
         $orderId = $request->input('order_id');
         $selectedOptions = $request->input('barang', []);
-        $barangs = barang::find($selectedOptions);
+        $barangs = ProdukToko::find($selectedOptions);
         
         return view('kasir.order.cart',[
             'barangs' => $barangs,
@@ -72,7 +78,7 @@ class OrderController extends Controller
     }
     public function addOrder(Request $request){
         $customerId = $request->input('customer');
-        $barangs = Barang::with('barangGudangDetails')->paginate(10);
+        $barangs = ProdukToko::with('ProdukTokoDetail')->paginate(10);
         $orders = $this->order->paginate(10);
         $tanggal = Carbon::now();
         try {
@@ -90,44 +96,45 @@ class OrderController extends Controller
     }
     
     public function pembayaran(Request $request){
-        
+        $id = $request->session()->get('toko_id');
         $orderId = $request->input('order_id');
-        $selectedids = $request->input('id', []);
+        $selectedIds = $request->input('id', []);
         $qty = $request->input('qty', []); 
-        $barangs = barang::find($selectedids);
-        $Totalharga= 0;
+        $barangs = ProdukToko::with('ProdukTokoDetail')->find($selectedIds);
+        $totalHarga = 0;
         $dataUpdate = $this->order::find($orderId);
-       
+    
         try {
             foreach ($qty as $index => $quantity) {
-                $barang = $barangs[$index];
-                $hargaTotal = $quantity * $barang->harga;
+                $barang = $barangs[$index]->produkTokoDetail->sum('harga');
+                $hargaTotal = $quantity * $barang;
                 OrderDetail::create([
-                        'produk_toko_id' => $barangs[$index]->id,
-                        'order_id' => $orderId,
-                        'harga' => $hargaTotal,
-                        'qty' => $quantity,
-                    ]);
-                
-            }
-            $orderDetail=$this->orderDetail::where('order_id',$orderId)->get();
-            foreach ($orderDetail as $od){
-                $Totalharga=$Totalharga +$od->harga;
-            }
-            $dataUpdate->harga_total = $Totalharga;      
-            $dataUpdate->save();
-            $orderDetail=$this->orderDetail::where('order_id',$orderId)->get();
-            $order = $this->order::find($orderId);
-            return view('kasir.order.pembayaran', [
-                'orderDetail' => $orderDetail,
-                'orderId' => $orderId,
-                'order' => $order,
+                    'produk_toko_id' => $barangs[$index]->produkTokoDetail->sum('produk_toko_id'),
+                    'order_id' => $orderId,
+                    'harga' => $hargaTotal,                  
+                    'qty' => $quantity,
                 ]);
-    
-        }catch(Exception $e){
+                $totalHarga += $hargaTotal;
+            }
+            $dataUpdate->harga_total = $totalHarga;      
+            $dataUpdate->save();
+            return redirect()->route('toBayar', ['orderId' => $orderId]);
+        } catch(Exception $e){
             dd($e);
         }
-    }   
+    }
+
+    public function toBayar($orderId){
+        $orderDetail = $this->orderDetail::where('order_id', $orderId)->get();
+        $order = $this->order::find($orderId);
+
+        return view('kasir.order.pembayaran', [
+            'orderDetail' => $orderDetail,
+            'orderId' => $orderId,
+            'order' => $order,
+            ]);
+    }
+   
     
     public function detail(Request $request, String $id){
         $orderDetail=$this->orderDetail::where('order_id',$id)->get();
@@ -138,25 +145,29 @@ class OrderController extends Controller
     }
     
     public function bayar(Request $request){
-        $selectedids = $request->input('id', []);
-        $qty = $request->input('qty', []); 
-        $harga = $request->input('harga');        
-        $bayar = $request->input('jumlah_bayar');
-        $metode = $request->input('metode');
-        $kembalian=intv($bayar)-intv($harga);   
+        $data = $request->all();
+        $harga = (float)$request->input('harga');        
+        $bayar = (float)$request->input('jumlah_bayar');
+        $kembalian=$bayar-$harga;  
 
         try {
-            Orderpayment::create([
-                'metode_pembayaran' => $metode,
-                'jumlah_bayar' => $bayar,
-                'kembalian' => $kembalian,
-               ]);           
-            
+            $validator = Validator::make($data,[
+                'harga' => 'required',
+                'jumlah_bayar' => 'required',
+                'metode' => 'required',
+            ]);
+            $dataBaru = new $this->orderPayment;
 
+            $dataBaru->metode_pembayaran = $data['metode'];
+            $dataBaru->jumlah_bayar = $data['jumlah_bayar'];
+            $dataBaru->kembalian = $kembalian;
+            $dataBaru->save();
+            
             return redirect('/kasir/order/');
-        }catch(Exception $e){
+        } catch(Exception $e){
             dd($e);
         }
+        
     }
     
 
