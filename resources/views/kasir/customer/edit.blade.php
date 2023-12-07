@@ -11,27 +11,27 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form method="POST" action="/kasir/customer/update" enctype="multipart/form-data">
+            <form method="POST" action="/kasir/customer/update/{{$customer->id}}" enctype="multipart/form-data">
               @csrf
               <div class="card-body d-flex flex-row justify-content-between">
                 <div>
                   <div class="form-group">
-                    <label for="nama_customer">Nama Customer</label>
-                    <input type="text" class="form-control" id="nama_customer" name="nama_customer" placeholder="Masukkan Nama Customer">
+                    <label for="nama">Nama Customer</label>
+                    <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama customer" value="{{$customer->nama}}">
                   </div>
-                </div>
-                <div>
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" id="email" name="email" placeholder="Masukkan Nama Email" value="{{$customer->email}}">
+                  </div>
                   <div class="form-group">
                     <label for="no_telepon">No Telepon</label>
-                    <input type="text" class="form-control" id="no_telepon" name="no_telepon" placeholder="No Telepon">
+                    <input type="text" class="form-control" id="no_telepon" name="no_telepon" placeholder="No Telepon" value="{{$customer->no_telp}}">
                   </div>
-
-                  
+                  <div class="form-group">
+                    <label for="alamat">alamat</label>
+                    <textarea name="alamat" id="alamat" class="form-control" cols="30" rows="10" name="alamat">{{$customer->alamat}}</textarea>
+                  </div>                 
                 </div>
-
-
-
-
               </div>
               <!-- /.card-body -->
 

@@ -16,16 +16,21 @@
               <div class="card-body d-flex flex-row justify-content-between">
                 <div>
                   <div class="form-group">
-                    <label for="nama_customerr">Nama Customer</label>
-                    <input type="text" class="form-control" id="nama_customerr" name="nama_customerr" placeholder="Masukkan Nama Customer">
+                    <label for="nama">Nama SCustomer</label>
+                    <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Supplier">
                   </div>
-                <div>
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" id="email" name="email" placeholder="Masukkan Nama Email">
+                  </div>
                   <div class="form-group">
                     <label for="no_telepon">No Telepon</label>
                     <input type="text" class="form-control" id="no_telepon" name="no_telepon" placeholder="No Telepon">
+                  </div>                
+                  <div class="form-group">
+                    <label for="alamat">alamat</label>
+                    <textarea name="alamat" id="alamat" class="form-control" cols="30" rows="10" name="alamat"></textarea>
                   </div>
-
-                  
                 </div>
 
 

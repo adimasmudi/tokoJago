@@ -4,72 +4,172 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Barang;
+use App\Models\BarangGudangDetail;
 use App\Models\OrderDetail;
+use App\Models\OrderPayment;
+use App\Models\Order;
 use App\Models\Customer; 
 use Exception;
+use App\Models\ProdukToko; 
+use App\Models\ProdukTokoDetail; 
 use Illuminate\Support\Facades\Validator;
 use InvalidArgumentException;
-use DB;
+use Carbon\Carbon;
 
 
 class OrderController extends Controller
 {
+    protected $orderPayment;
     protected $orderDetail;
+    protected $order;
     protected $barang;
+    protected $customer;
+    protected $ProdukToko;
+    protected $ProdukTokoDeatil; 
 
-    public function __construct(OrderDetail $orderDetail, Barang $barang)
+    
+
+    public function __construct(ProdukToko $ProdukToko, ProdukTokoDetail $ProdukTokoDetail, Customer $customer, Order $order, OrderPayment $orderPayment,OrderDetail $orderDetail, Barang $barang)
     {
+        $this->order = $order;
         $this->orderDetail = $orderDetail;
+        $this->orderPayment = $orderPayment;
         $this->barang = $barang;
-    }
-
-    public function cart(){
-        $orderDetails = $this->orderDetail->with('barang')->paginate(10);
-
-        return view('kasir.order.cart', [
-            'orderDetails' => $orderDetails
-        ]);
+        $this->customer = $customer; 
+        $this->ProdukTokoDetail = $ProdukTokoDetail;
+        $this->ProdukToko = $ProdukToko;
     }
 
     public function index(){
-        $barangs = $this->barang->paginate(10);
+        $orders = $this->order->paginate(10);
 
         return view('kasir.order.index', [
-            'barangs' => $barangs
+            'orders' => $orders
         ]);
     }
-
-    public function pembayaran(){
-        $barangs = Barang::paginate(10);
-        $customers = Customer::all();
+    public function pilih(Request $request){
+        $id = $request->session()->get('toko_id');
+        $produk= $this->ProdukToko::where('toko_id',$id)->with(['produkTokoDetail', 'produkTokoDetail.barang'])->get();
+        $orderId = $request->input('order_id');
+        return view('kasir.order.pilih',[
+            'produk' => $produk,
+            'orderId' => $orderId
+        ]);
+    }
+    public function create(){
+        $customers = $this->customer->paginate(10);
+        return view('kasir.order.pembeli', [
+            'customers' => $customers
+        ]);
+    }
     
-        return view('kasir.order.pembayaran', [
+    public function cart(Request $request)
+    {
+        // Validasi request sesuai kebutuhan
+        
+        $orderId = $request->input('order_id');
+        $selectedOptions = $request->input('barang', []);
+        $barangs = ProdukToko::find($selectedOptions);
+        
+        return view('kasir.order.cart',[
             'barangs' => $barangs,
-            'customers' => $customers,
+            'orderId' => $orderId,
         ]);
     }
-    public function addToCart(Request $request){
+    public function addOrder(Request $request){
+        $customerId = $request->input('customer');
+        $barangs = ProdukToko::with('ProdukTokoDetail')->paginate(10);
+        $orders = $this->order->paginate(10);
+        $tanggal = Carbon::now();
         try {
-            $selectedBarangIds = $request->input('order');
-            DB::beginTransaction();
+            $order = Order::create([
+                'customer_id' => $customerId,
+                'tanggal' => $tanggal,
+                'harga_total' => 00, 
+                'catatan' => null,
+            ]);
 
-            foreach ($selectedBarangIds as $barangId) {
-                $orderDetail = new OrderDetail([
-                    'barang_id' => $barangId,
-                    'qty' => 1, // Misalnya, setiap barang yang ditambahkan memiliki qty 1
-                ]);
-
-                $orderDetail->save();
-                }
-
-            DB::commit();
-            return redirect('/kasir/order/cart');
-        } catch (\Exception $e) {
-        // Jika terjadi kesalahan, rollback transaksi dan tangani kesalahan
-            DB::rollback();
-            return redirect()->back()->with('error', 'Gagal menambahkan barang ke keranjang.');
+            return redirect('/kasir/order/');
+        }catch(Exception $e){
+            dd($e);
         }
     }
+    
+    public function pembayaran(Request $request){
+        $id = $request->session()->get('toko_id');
+        $orderId = $request->input('order_id');
+        $selectedIds = $request->input('id', []);
+        $qty = $request->input('qty', []); 
+        $barangs = ProdukToko::with('ProdukTokoDetail')->find($selectedIds);
+        $totalHarga = 0;
+        $dataUpdate = $this->order::find($orderId);
+    
+        try {
+            foreach ($qty as $index => $quantity) {
+                $barang = $barangs[$index]->produkTokoDetail->sum('harga');
+                $hargaTotal = $quantity * $barang;
+                OrderDetail::create([
+                    'produk_toko_id' => $barangs[$index]->produkTokoDetail->sum('produk_toko_id'),
+                    'order_id' => $orderId,
+                    'harga' => $hargaTotal,                  
+                    'qty' => $quantity,
+                ]);
+                $totalHarga += $hargaTotal;
+            }
+            $dataUpdate->harga_total = $totalHarga;      
+            $dataUpdate->save();
+            return redirect()->route('toBayar', ['orderId' => $orderId]);
+        } catch(Exception $e){
+            dd($e);
+        }
+    }
+
+    public function toBayar($orderId){
+        $orderDetail = $this->orderDetail::where('order_id', $orderId)->get();
+        $order = $this->order::find($orderId);
+
+        return view('kasir.order.pembayaran', [
+            'orderDetail' => $orderDetail,
+            'orderId' => $orderId,
+            'order' => $order,
+            ]);
+    }
+   
+    
+    public function detail(Request $request, String $id){
+        $orderDetail=$this->orderDetail::where('order_id',$id)->get();
+
+        return view('kasir.order.show',[
+            'orderDetail' => $orderDetail,
+        ]);
+    }
+    
+    public function bayar(Request $request){
+        $data = $request->all();
+        $harga = (float)$request->input('harga');        
+        $bayar = (float)$request->input('jumlah_bayar');
+        $kembalian=$bayar-$harga;  
+
+        try {
+            $validator = Validator::make($data,[
+                'harga' => 'required',
+                'jumlah_bayar' => 'required',
+                'metode' => 'required',
+            ]);
+            $dataBaru = new $this->orderPayment;
+
+            $dataBaru->metode_pembayaran = $data['metode'];
+            $dataBaru->jumlah_bayar = $data['jumlah_bayar'];
+            $dataBaru->kembalian = $kembalian;
+            $dataBaru->save();
+            
+            return redirect('/kasir/order/');
+        } catch(Exception $e){
+            dd($e);
+        }
+        
+    }
+    
 
 
 }

@@ -13,7 +13,7 @@
                 <table class="table table-bordered">
                   <thead>
                     <tr>
-                      <th style="width: 10px">No</th>
+                      <th style="width: 10px">ID</th>
                       <th>Nama Barang</th>
                       <th>Harga</th>
                       <th>Qty</th>
@@ -21,27 +21,34 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @if($barangs)
-                      @forelse($barangs as $barang)
-                        <tr>
-                          <td>{{ $barang->id }}</td>
-                          <td>{{ $barang->nama }}</td>
-                          <td>{{ $barang->harga }}</td>
-                          <td>{{ $barang->barangGudangDetails->sum('qty') }}</td>
-                          <td>
-                              <a href="../kasir/produk/edit/{{ $barang->id }}" class="btn btn-primary mx-2">
-                                edit
-                              </a>
-                          </td>
-                        </tr>
-                      @empty
-                        <p>Tidak ada barang yang ditemukan.</p>
-                      @endforelse
+                    @if($produk)
+                        @forelse($produk as $p)
+                            <tr>
+                                <td>{{$p->produkTokoDetail->sum('id')}}</td>
+                                <td>
+                                    @forelse($p->produkTokoDetail as $detail)
+                                        {{$detail->barang->nama}}
+                                    @empty
+                                        N/A
+                                    @endforelse
+                                </td>
+                                <td>{{$p->produkTokoDetail->sum('harga')}}</td>
+                                <td>{{$p->produkTokoDetail->sum('qty')}}</td>
+                                <td>
+                                    <a href="../kasir/produk/edit/{{$p->id}}" class="btn btn-primary mx-2">
+                                        edit
+                                    </a>
+                                </td>
+                            </tr>
+                        @empty
+                            <p>Tidak ada barang yang ditemukan.</p>
+                        @endforelse
                     @endif
                   </tbody>
+                
+                  
                 </table>
               </div>
-              
             </div>
             
           </div>

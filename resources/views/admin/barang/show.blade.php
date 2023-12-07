@@ -51,14 +51,21 @@
                         <thead>
                             <tr>
                             <th style="width: 10px">No</th>
-                            
+                            <th>Nama Toko</th>
+                            <th>Alamat</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                
-                            </tr>
+                            @if(count($barang->produkTokoDetails) > 0)
+                              @foreach($barang->produkTokoDetails as $produkTokoDetail)
+                                <tr>
+                                  <td>{{$produkTokoDetail->produkToko->toko->id}}</td>
+                                  <td>{{$produkTokoDetail->produkToko->toko->nama}}</td>
+                                  <td>{{$produkTokoDetail->produkToko->toko->alamat}}</td>
+                                </tr>
+                              @endforeach
+
+                            @endif
                             
                         </tbody>
                     </table>

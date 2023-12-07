@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\KasirController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\GudangController;
@@ -9,6 +11,8 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\orderController;
 use App\Http\Controllers\ProdukController;
+
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,14 +29,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/check_db', function() {
+    try {
+        DB::connection('sqlsrv')->getPDO();
+        echo DB::connection()->getDatabaseName();
+    } catch (\Exception $e) {
+        dd($e);
+    }
+});
+
 
 Route::group(['prefix' => 'admin'], function(){
     Route::get('/login', function(){
         return view('admin.login');
     });
-    Route::get('/', function(){
-        return view('admin.home');
-    });
+    Route::get('/', [AdminController::class, 'home']);
 
     Route::group(['prefix' => 'gudang'], function(){
         Route::get('/', [GudangController::class,'index']);
@@ -67,7 +78,9 @@ Route::group(['prefix' => 'admin'], function(){
         });
 
         Route::group(['prefix' => 'kasirToko'], function(){
-            Route::get('/', [TokoController::class, 'createAddKasirToko']);
+            Route::get('/{id}', [TokoController::class, 'createAddKasirToko']);
+
+            Route::post('/save',[TokoController::class, 'saveKasir']);
         });
 
         
@@ -104,31 +117,41 @@ Route::group(['prefix' => 'admin'], function(){
 });
 
 Route::group(['prefix' => 'kasir'], function(){
-        Route::get('/login', function(){
-            return view('kasir.login');
-        });
-        Route::get('/', function(){
-            return view('kasir.home');
-        });
-    
+        Route::post('/login', [KasirController::class, 'login']);
+        Route::post('/logout', [KasirController::class, 'loginpage']);
+        
+        Route::get('/', [KasirController::class, 'loginpage']);
+        Route::get('/loginHome', [KasirController::class, 'home']);
+        
+        
         Route::group(['prefix' => 'customer'], function(){
             Route::get('/', [customerController::class,'index']);
             Route::get('/tambah', [customerController::class, 'tambah']);
             Route::get('/edit/{id}', [customerController::class, 'edit']);
+            Route::post('/save', [customerController::class,'save']);
+            Route::post('/update/{id}', [customerController::class,'update']);
+            Route::delete('/delete/{id}', [customerController::class,'delete']);
 
         });
     
         Route::group(['prefix' => 'order'], function(){
             Route::get('/', [orderController::class,'index']);
             Route::get('/cart', [orderController::class, 'cart']);
-            Route::post('/cart', [orderController::class, 'addToCart']);
+            Route::delete('/delete/{id}', [orderController::class,'delete']);
             Route::get('/pembayaran', [orderController::class, 'pembayaran']);
+            Route::get('/bayar', [orderController::class, 'bayar']);
+            Route::get('/toBayar/{orderId}', [orderController::class, 'toBayar']);
+            Route::get('/addOrder', [orderController::class, 'addOrder']);
+            Route::get('/create', [orderController::class, 'create']);
+            Route::get('/pilih', [orderController::class, 'pilih']);
+            Route::get('/detail/{id}', [orderController::class, 'detail']);
             
         });
     
         Route::group(['prefix' => 'produk'], function(){
             Route::get('/', [ProdukController::class,'index']);
             Route::get('/edit/{id}', [ProdukController::class, 'edit']);
+            Route::post('/update/{id}',[ProdukController::class, 'update']);
         });
     
 });

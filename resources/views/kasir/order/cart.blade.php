@@ -9,32 +9,28 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <form method="GET" action="/kasir/order/pembayaran" enctype="multipart/form-data">
+              <form method="GET" action="/kasir/order/pembayaran/" enctype="multipart/form-data">
               @csrf
-                <label for="search">Search:</label>
-                <input type="text" name="search" id="search">
-                <button type="submit">Search</button>
                 <table class="table table-bordered">
                   <thead>
                     <tr>
                       <th style="width: 10px">ID</th>
-                      <th>Nama</th>
                       <th>Harga</th>
-                      <th>Qty</th>
-                      <th>Total</th>
+                      <th>jumlah tersedia</th>
+                      <th>jumlah dibeli</th>
                     </tr>
                   </thead>
                   <tbody>
-                    @if($orderDetails)
-                      @forelse($orderDetails as $orderDetail)
+                    @if($barangs)
+                      @forelse($barangs as $barang)
                       <tr>
-                          <td>{{ $orderDetail->id }}</td>
-                          <td>{{ $orderDetail->barang->nama }}</td>
-                          <td>{{ $orderDetail->barang->harga }}</td>
-                          <td>{{ $orderDetail->qty }}</td>
-                          <td>
-                              {{ $orderDetail->qty * $orderDetail->barang->harga }}
-                          </td>
+                        <td>{{ $barang->id }}<input type="text" class="form-control" id="id[]" name="id[]" value="{{$barang->id}}"hidden></td>
+                        <td>{{ $barang->ProdukTokoDetail->sum('harga') }}</td>
+                        <td>{{ $barang->ProdukTokoDetail->sum('qty') }}</td>
+                        <td>
+                          <input type="number" class="form-control" id="qty[]" name="qty[]" placeholder="0" >                          
+                        </td>
+                        <td>            
                       </tr>
                       @empty
                       <p>Tidak ada barang yang ditemukan.</p>
@@ -44,8 +40,8 @@
                 </table>
                 
                 <div class="card-footer">
-                    <p>Harga Total : </p>
-                    <button type="submit" class="btn btn-primary">bayar</button>
+                  <input type="text" class="form-control" id="order_id" name="order_id" value="{{$orderId}}"hidden> 
+                  <button type="submit" class="btn btn-primary">bayar</button>
                 </div>
               
             </div>
