@@ -100,39 +100,48 @@ class OrderController extends Controller
         $orderId = $request->input('order_id');
         $selectedIds = $request->input('id', []);
         $qty = $request->input('qty', []); 
-        $barangs = ProdukToko::with('ProdukTokoDetail')->find($selectedIds);
-        $totalHarga = 0;
-        $dataUpdate = $this->order::find($orderId);
+        $barangs = ProdukTokoDetail::find($selectedIds);
+        
     
         try {
             foreach ($qty as $index => $quantity) {
-                $barang = $barangs[$index]->produkTokoDetail->sum('harga');
-                $hargaTotal = $quantity * $barang;
+                $harga = $barangs[$index]->harga;
+                $x=$barangs[$index]->qty;
+                $barangs[$index]->qty= $x-$quantity;
+                $hargaTotal = $quantity * $harga;
+                $barangs[$index]->save();
                 OrderDetail::create([
-                    'produk_toko_id' => $barangs[$index]->produkTokoDetail->sum('produk_toko_id'),
+                    'produk_toko_id' => $barangs[$index]->produk_toko_id,
                     'order_id' => $orderId,
                     'harga' => $hargaTotal,                  
                     'qty' => $quantity,
                 ]);
-                $totalHarga += $hargaTotal;
             }
-            $dataUpdate->harga_total = $totalHarga;      
-            $dataUpdate->save();
-            return redirect()->route('toBayar', ['orderId' => $orderId]);
+            return redirect('/kasir/order/toBayar/'.$orderId);
         } catch(Exception $e){
             dd($e);
         }
     }
 
-    public function toBayar($orderId){
+    public function toBayar(Request $request, string $orderId){
         $orderDetail = $this->orderDetail::where('order_id', $orderId)->get();
         $order = $this->order::find($orderId);
+        
+        try {
+            $harga = $orderDetail->sum('harga');
+            $order->harga_total = $harga;
+            $order->save();
+            
+            return view('kasir.order.pembayaran', [
+                'orderDetail' => $orderDetail,
+                'orderId' => $orderId,
+                'order' => $order,
+                ]);
+        } catch(Exception $e){
+            dd($e);
+        }
 
-        return view('kasir.order.pembayaran', [
-            'orderDetail' => $orderDetail,
-            'orderId' => $orderId,
-            'order' => $order,
-            ]);
+        
     }
    
     

@@ -43,6 +43,7 @@
                                         <button>detail</i></button>
                                       </form>
                                     @endif     
+                                    
                                   </div>
                                 </td>
                               </tr>
