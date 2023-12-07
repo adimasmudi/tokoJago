@@ -137,14 +137,14 @@ Route::group(['prefix' => 'kasir'], function(){
         Route::group(['prefix' => 'order'], function(){
             Route::get('/', [orderController::class,'index']);
             Route::get('/cart', [orderController::class, 'cart']);
+            Route::delete('/delete/{id}', [orderController::class,'delete']);
             Route::get('/pembayaran', [orderController::class, 'pembayaran']);
             Route::get('/bayar', [orderController::class, 'bayar']);
             Route::get('/toBayar/{orderId}', [orderController::class, 'toBayar']);
-
             Route::get('/addOrder', [orderController::class, 'addOrder']);
             Route::get('/create', [orderController::class, 'create']);
             Route::get('/pilih', [orderController::class, 'pilih']);
-            Route::get('/detail/{id}', [SupplierController::class, 'detail']);
+            Route::get('/detail/{id}', [orderController::class, 'detail']);
             
         });
     
