@@ -137,7 +137,7 @@ Route::group(['prefix' => 'kasir'], function(){
         Route::group(['prefix' => 'order'], function(){
             Route::get('/', [orderController::class,'index']);
             Route::get('/cart', [orderController::class, 'cart']);
-            Route::delete('/delete/{id}', [orderController::class,'delete']);
+            Route::delete('/delete/{id}', [orderController::class, 'delete']);
             Route::get('/pembayaran', [orderController::class, 'pembayaran']);
             Route::get('/bayar', [orderController::class, 'bayar']);
             Route::get('/toBayar/{orderId}', [orderController::class, 'toBayar']);
