@@ -67,10 +67,10 @@
                             @if(count($gudang->barangGudang) > 0)
                               @foreach($gudang->barangGudang as $detailBarang)
                                 <tr>
-                                  <td>{{$detailBarang->barangGudangDetail->first()->barang_id}}</td>
-                                  <td>{{$detailBarang->barangGudangDetail->first()->barang->nama}}</td>
-                                  <td>{{$detailBarang->barangGudangDetail->first()->harga}}</td>
-                                  <td>{{$detailBarang->barangGudangDetail->first()->qty}}</td>
+                                  <td>{{$detailBarang->barangGudangDetail->first()->barang_id ?? ""}}</td>
+                                  <td>{{$detailBarang->barangGudangDetail->first()->barang->nama ?? ""}}</td>
+                                  <td>{{$detailBarang->barangGudangDetail->first()->harga ?? ""}}</td>
+                                  <td>{{$detailBarang->barangGudangDetail->first()->qty ?? ""}}</td>
                                   <td>
                                       <a href="/admin/gudang/barangGudang/edit" class="btn btn-warning mx-2">
                                           <i class="fas fa-edit"></i>

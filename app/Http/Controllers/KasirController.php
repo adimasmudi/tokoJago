@@ -31,9 +31,14 @@ class KasirController extends Controller
     }
     public function home(Request $request){
         $toko_id = $request->session()->get('toko_id');
-        $produk_toko=ProdukToko::where('toko_id',$toko_id)->get();
+
+        if (!$toko_id){
+            return redirect('/kasir/loginPage');
+        }
+
+        $produk_toko=$this->produktoko::where('toko_id',$toko_id)->get();
         $customer = count($this->customer->get());
-        $produk= count($this->toko->get());
+        $produk= count($produk_toko);
         $order = count($this->order->get());
         return view('kasir.home',[
             'customer' => $customer,
@@ -46,15 +51,22 @@ class KasirController extends Controller
     public function login(Request $request){
         $email = $request->input('email');
         $password = $request->input('password');
-        $kasir = Kasir::where('email',$email)->get();
-        $id=2;
-        $request->session()->put('toko_id', $id);
-        return redirect('/kasir/loginHome/');
+        $kasir = Kasir::where('email',$email)->first();
+        $request->session()->put('toko_id', $kasir->toko_id);
+        return redirect('/kasir');
     }
 
-    public function loginpage(Request $request){
+    public function logout(Request $request){
         $request->session()->forget('toko_id');
 
-        return view('Kasir.login');
+        return redirect('/kasir');
+    }
+
+    public function loginPage(Request $request){
+        if($request->session()->get('toko_id')){
+            return redirect('/kasir');
+        }
+
+        return view('kasir.login');
     }
 }
