@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ProdukToko; 
 use App\Models\ProdukTokoDetail; 
+use App\Models\Barang;
 use Exception;
 use Illuminate\Support\Facades\Validator;
 use InvalidArgumentException;
@@ -13,17 +14,21 @@ use InvalidArgumentException;
 
 class ProdukController extends Controller
 {   
-    protected $ProdukToko; 
+    protected $barang;
+    protected $ProdukToko;
+    protected $ProdukTokoDeatil; 
 
-    public function __construct(ProdukToko $ProdukToko, ProdukTokoDetail $ProdukTokoDetail)
+    public function __construct(Barang $barang,ProdukToko $ProdukToko, ProdukTokoDetail $ProdukTokoDetail)
     {
+        $this->barang = $barang;
         $this->ProdukTokoDetail = $ProdukTokoDetail;
         $this->ProdukToko = $ProdukToko; 
     }
 
     public function index(Request $request){
-        $toko_id = $request->session()->get('toko_id');
-        $produk=ProdukToko::where('toko_id',$toko_id)->get();
+        $id = $request->session()->get('toko_id');
+        $produk= $this->ProdukToko::where('toko_id',$id)->with(['produkTokoDetail', 'produkTokoDetail.barang'])->get();
+
         return view('kasir.produk.index', [
             'produk' => $produk,
         ]);
@@ -40,14 +45,12 @@ class ProdukController extends Controller
     }
 
     public function update(Request $request, String $id){
-        $ProdukToko = ProdukToko::with('ProdukTokoDetail')->find($id);
+        $ProdukToko = ProdukTokoDetail::find($id);
         $data = $request->validate([
             'qty' => 'numeric',
         ]);
-        foreach ($ProdukToko->ProdukTokoDetails as $ProdukTokoDetail) {
-            $ProdukTokoDetail->qty = $data['qty'];
-            $ProdukTokoDetail->save();
-        }
+        $ProdukToko->qty = $data['qty'];
+        $ProdukToko->save();
         $ProdukTokos = ProdukToko::with('ProdukTokoDetail')->paginate(10);
         return redirect('/kasir/produk/')->with('barangs', $ProdukTokos);
 

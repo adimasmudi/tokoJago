@@ -17,7 +17,6 @@
                                 <th>customer_id</th>
                                 <th>tanggal</th>
                                 <th>harga total</th>
-                                <th>catatan</th>
                                 <th>customer_type</th>
                                 <th>Action</th>
                                 </tr>
@@ -29,23 +28,22 @@
                                 <td>{{ $order->customer_id }}</td>
                                 <td>{{ $order->tanggal }}</td>
                                 <td>{{ $order->harga_total }}</td>
-                                <td><textarea id="catatan" class="form-control" cols="10" rows="1" name="catatan">{{ $order->catatan }}</textarea>
-                                </td>
                                 <td>{{ $order->customer_type }}</td>
                                 <td> 
                                   <div class="d-flex flex-row">
-                                      
-                                      <form method="GET" action="/kasir/order/detail">
-                                        <input type="text" class="btn btn-warning mx-2" id="id" name="id" value="{{$order->id}}" hidden>
-              
-                                        <button>detail</i></button>
-                                    </form>
-                                                                     
-                                    <form method="GET" action="/kasir/order/pilih">
+                                    @if ($order->harga_total == 0.0)
+                                                                          
+                                      <form method="GET" action="/kasir/order/pilih">
                                         <input type="text" class="form-control" id="order_id" name="order_id" value="{{$order->id}}" hidden>
-                
                                         <button>order</i></button>
-                                    </form>
+                                      </form>
+                                    @else
+                                      <form method="GET" action="/kasir/order/detail/{{$order->id}}">
+                                        <input type="text" class="btn btn-warning mx-2" id="id" name="id" value="{{$order->id}}" hidden>
+                                        <button>detail</i></button>
+                                      </form>
+                                    @endif     
+                                    
                                   </div>
                                 </td>
                               </tr>
