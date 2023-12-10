@@ -52,7 +52,7 @@ class KasirController extends Controller
         return redirect('/kasir/loginHome/');
     }
 
-    public function loginpage(){
+    public function loginpage(Request $request){
         $request->session()->forget('toko_id');
 
         return view('Kasir.login');
