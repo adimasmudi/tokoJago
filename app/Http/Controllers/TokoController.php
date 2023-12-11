@@ -159,8 +159,6 @@ class TokoController extends Controller
                 }
             }
 
-           
-
             if($barangGudangDetailQty < $data['kuantitas']){
                 dd('stok gudang yang dipilih tidak sesuai permintaan');
             }

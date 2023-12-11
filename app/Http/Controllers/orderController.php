@@ -25,7 +25,7 @@ class OrderController extends Controller
     protected $barang;
     protected $customer;
     protected $ProdukToko;
-    protected $ProdukTokoDeatil; 
+    protected $ProdukTokoDetail; 
 
     
 
