@@ -64,7 +64,7 @@ class KasirController extends Controller
             }
             
             $request->session()->put('toko_id', $id);
-            return redirect('/kasir/Home/');
+            return redirect('/kasir');
 
         }catch(Exception $e){
             dd($e);

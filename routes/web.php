@@ -118,10 +118,10 @@ Route::group(['prefix' => 'admin'], function(){
 
 Route::group(['prefix' => 'kasir'], function(){
         Route::post('/login', [KasirController::class, 'login']);
-        Route::post('/logout', [KasirController::class, 'loginpage']);
+        Route::post('/logout', [KasirController::class, 'logout']);
         
-        Route::get('/', [KasirController::class, 'loginpage']);
-        Route::get('/Home', [KasirController::class, 'home']);
+        Route::get('/', [KasirController::class, 'home']);
+        Route::get('/loginPage', [KasirController::class, 'loginPage']);
         
         
         Route::group(['prefix' => 'customer'], function(){
