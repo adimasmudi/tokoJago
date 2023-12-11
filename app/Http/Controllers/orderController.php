@@ -100,18 +100,18 @@ class OrderController extends Controller
         $orderId = $request->input('order_id');
         $selectedIds = $request->input('id', []);
         $qty = $request->input('qty', []); 
-        $barangs = ProdukTokoDetail::find($selectedIds);
-        
-    
+        $data = $request->all();
         try {
             foreach ($qty as $index => $quantity) {
-                $harga = $barangs[$index]->harga;
-                $x=$barangs[$index]->qty;
-                $barangs[$index]->qty= $x-$quantity;
+                $id=$selectedIds[$index];
+                $barangs = ProdukTokoDetail::where('produk_toko_id',$id)->first();
+                $harga = $barangs->harga;
+                $x=$barangs->qty;
+                $barangs->qty= $x-$quantity;
                 $hargaTotal = $quantity * $harga;
-                $barangs[$index]->save();
+                $barangs->save();
                 OrderDetail::create([
-                    'produk_toko_id' => $barangs[$index]->produk_toko_id,
+                    'produk_toko_id' => $barangs->produk_toko_id,
                     'order_id' => $orderId,
                     'harga' => $hargaTotal,                  
                     'qty' => $quantity,
