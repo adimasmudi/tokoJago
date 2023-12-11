@@ -17,7 +17,6 @@
                       <th>Nama Barang</th>
                       <th>Harga</th>
                       <th>Qty</th>
-                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -34,11 +33,6 @@
                                 </td>
                                 <td>{{$p->produkTokoDetail->sum('harga')}}</td>
                                 <td>{{$p->produkTokoDetail->sum('qty')}}</td>
-                                <td>
-                                    <a href="../kasir/produk/edit/{{$p->id}}" class="btn btn-primary mx-2">
-                                        edit
-                                    </a>
-                                </td>
                             </tr>
                         @empty
                             <p>Tidak ada barang yang ditemukan.</p>

@@ -15,7 +15,7 @@
                 <thead>
                   <tr>
                     <th style="width: 10px">ID</th>
-                    <th>Nama Barang</th>
+                    <th>Id Barang</th>
                     <th>Harga</th>
                     <th>Qty</th>
                     <th>harga total</th>
@@ -68,7 +68,6 @@
                         <div class="form-group">
                           <label for="jumlah_bayar">Jumlah Bayar</label>
                           <input type="text" class="form-control" id="jumlah_bayar" name="jumlah_bayar" >
-                          <input type="text" class="form-control" id="harga" name="harga" value="{{$order->harga_total}}"hidden>
                         </div>
                       </div>
                     </div>

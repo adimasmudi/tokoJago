@@ -8,8 +8,7 @@ use App\Models\Toko;
 use App\Models\ProdukToko;
 use App\Models\Kasir;
 use App\Models\Customer;
-
-
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class KasirController extends Controller
@@ -31,9 +30,14 @@ class KasirController extends Controller
     }
     public function home(Request $request){
         $toko_id = $request->session()->get('toko_id');
-        $produk_toko=ProdukToko::where('toko_id',$toko_id)->get();
+
+        if (!$toko_id){
+            return redirect('/kasir/loginPage');
+        }
+
+        $produk_toko=$this->produktoko::where('toko_id',$toko_id)->get();
         $customer = count($this->customer->get());
-        $produk= count($this->toko->get());
+        $produk= count($produk_toko);
         $order = count($this->order->get());
         return view('kasir.home',[
             'customer' => $customer,
@@ -43,18 +47,40 @@ class KasirController extends Controller
         ]);
     }
     
-    public function login(Request $request){
-        $email = $request->input('email');
-        $password = $request->input('password');
+   public function login(Request $request){
+        $email=$request->input('email');
         $kasir = Kasir::where('email',$email)->get();
-        $id=2;
-        $request->session()->put('toko_id', $id);
-        return redirect('/kasir/loginHome/');
-    }
+        $id=$kasir->sum('toko_id');
+        $data = $request->all();
 
-    public function loginpage(Request $request){
+        try{
+            $validator = Validator::make($data,[
+                'password' => 'required',
+                'email' => 'required',
+            ]);
+    
+            if ($validator->fails()) {
+                throw new InvalidArgumentException($validator->errors()->first());
+            }
+            
+            $request->session()->put('toko_id', $id);
+            return redirect('/kasir');
+
+        }catch(Exception $e){
+            dd($e);
+        }
+    }
+    public function logout(Request $request){
         $request->session()->forget('toko_id');
 
-        return view('Kasir.login');
+        return redirect('/kasir');
+    }
+
+    public function loginPage(Request $request){
+        if($request->session()->get('toko_id')){
+            return redirect('/kasir');
+        }
+
+        return view('kasir.login');
     }
 }

@@ -62,13 +62,15 @@
                         </thead>
                         
                         <tbody>
+                         
                             @if(count($supplier->suplai) > 0)
                               @foreach($supplier->suplai as $suplaiDetail)
+                                  
                                 <tr>
-                                  <td>{{$suplaiDetail->suplaiDetails->first()->suplai_id}}</td>
-                                  <td>{{$suplaiDetail->suplaiDetails->first()->barang->nama}}</td>
-                                  <td>{{$suplaiDetail->suplaiDetails->first()->qty}}</td>
-                                  <td>{{$suplaiDetail->suplaiDetails->first()->harga}}</td>
+                                  <td>{{$suplaiDetail->suplaiDetails->first()->suplai_id ?? ""}}</td>
+                                  <td>{{$suplaiDetail->suplaiDetails->first()->barang->nama ?? ""}}</td>
+                                  <td>{{$suplaiDetail->suplaiDetails->first()->qty ?? ""}}</td>
+                                  <td>{{$suplaiDetail->suplaiDetails->first()->harga ?? ""}}</td>
                                 </tr>
                               @endforeach
                             @endif

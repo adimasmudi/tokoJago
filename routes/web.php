@@ -118,10 +118,10 @@ Route::group(['prefix' => 'admin'], function(){
 
 Route::group(['prefix' => 'kasir'], function(){
         Route::post('/login', [KasirController::class, 'login']);
-        Route::post('/logout', [KasirController::class, 'loginpage']);
+        Route::post('/logout', [KasirController::class, 'logout']);
         
-        Route::get('/', [KasirController::class, 'loginpage']);
-        Route::get('/loginHome', [KasirController::class, 'home']);
+        Route::get('/', [KasirController::class, 'home']);
+        Route::get('/loginPage', [KasirController::class, 'loginPage']);
         
         
         Route::group(['prefix' => 'customer'], function(){
@@ -137,7 +137,7 @@ Route::group(['prefix' => 'kasir'], function(){
         Route::group(['prefix' => 'order'], function(){
             Route::get('/', [orderController::class,'index']);
             Route::get('/cart', [orderController::class, 'cart']);
-            Route::delete('/delete/{id}', [orderController::class,'delete']);
+            Route::delete('/delete/{id}', [orderController::class, 'delete']);
             Route::get('/pembayaran', [orderController::class, 'pembayaran']);
             Route::get('/bayar', [orderController::class, 'bayar']);
             Route::get('/toBayar/{orderId}', [orderController::class, 'toBayar']);
@@ -150,8 +150,6 @@ Route::group(['prefix' => 'kasir'], function(){
     
         Route::group(['prefix' => 'produk'], function(){
             Route::get('/', [ProdukController::class,'index']);
-            Route::get('/edit/{id}', [ProdukController::class, 'edit']);
-            Route::post('/update/{id}',[ProdukController::class, 'update']);
         });
     
 });
