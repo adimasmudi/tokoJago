@@ -150,8 +150,6 @@ Route::group(['prefix' => 'kasir'], function(){
     
         Route::group(['prefix' => 'produk'], function(){
             Route::get('/', [ProdukController::class,'index']);
-            Route::get('/edit/{id}', [ProdukController::class, 'edit']);
-            Route::post('/update/{id}',[ProdukController::class, 'update']);
         });
     
 });

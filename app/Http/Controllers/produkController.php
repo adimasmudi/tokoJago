@@ -33,27 +33,4 @@ class ProdukController extends Controller
             'produk' => $produk,
         ]);
     }
-
-    public function tambah(){
-        return view('kasir.produk.tambah');
-    }
-
-    public function edit($id)
-    {
-        $barang = ProdukToko::with('ProdukTokoDetail')->find($id);
-        return view('kasir.produk.edit', compact('barang'));
-    }
-
-    public function update(Request $request, String $id){
-        $ProdukToko = ProdukTokoDetail::find($id);
-        $data = $request->validate([
-            'qty' => 'numeric',
-        ]);
-        $ProdukToko->qty = $data['qty'];
-        $ProdukToko->save();
-        $ProdukTokos = ProdukToko::with('ProdukTokoDetail')->paginate(10);
-        return redirect('/kasir/produk/')->with('barangs', $ProdukTokos);
-
-    }
-
 }
