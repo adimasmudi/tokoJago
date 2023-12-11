@@ -15,7 +15,7 @@
                 <thead>
                   <tr>
                     <th style="width: 10px">ID</th>
-                    <th>Nama Barang</th>
+                    <th>Id Barang</th>
                     <th>Harga</th>
                     <th>Qty</th>
                     <th>harga total</th>

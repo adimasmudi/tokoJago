@@ -40,7 +40,7 @@
                   </table>
               </div>
             </div>
-            <button type="submit" class="btn btn-primary">Cart</button>
+            <button type="submit" class="btn btn-primary">Tambah</button>
           </div>
           <!-- /.card -->
         </div>

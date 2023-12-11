@@ -13,7 +13,7 @@
           <div class="form-group row">
             <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
             <div class="col-sm-10">
-              <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{ old('email') }}">
+              <input type="email" class="form-control" id="email" name="email" placeholder="email" value="{{ old('email') }}">
             </div>
             @error('email')
                 <p class="text-danger text-xs mt-1">{{ $message }}</p>
