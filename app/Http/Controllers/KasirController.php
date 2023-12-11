@@ -8,8 +8,7 @@ use App\Models\Toko;
 use App\Models\ProdukToko;
 use App\Models\Kasir;
 use App\Models\Customer;
-
-
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class KasirController extends Controller
@@ -44,12 +43,27 @@ class KasirController extends Controller
     }
     
     public function login(Request $request){
-        $email = $request->input('email');
-        $password = $request->input('password');
+        $email=$request->input('email');
         $kasir = Kasir::where('email',$email)->get();
-        $id=2;
-        $request->session()->put('toko_id', $id);
-        return redirect('/kasir/loginHome/');
+        $id=$kasir->sum('toko_id');
+        $data = $request->all();
+
+        try{
+            $validator = Validator::make($data,[
+                'password' => 'required',
+                'email' => 'required',
+            ]);
+    
+            if ($validator->fails()) {
+                throw new InvalidArgumentException($validator->errors()->first());
+            }
+            
+            $request->session()->put('toko_id', $id);
+            return redirect('/kasir/Home/');
+
+        }catch(Exception $e){
+            dd($e);
+        }
     }
 
     public function loginpage(Request $request){
