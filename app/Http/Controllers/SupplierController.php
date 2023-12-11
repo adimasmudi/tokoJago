@@ -156,6 +156,8 @@ class SupplierController extends Controller
 
             $hargaTotal = $barang->harga * $data['kuantitas'];
 
+            // save data suplai
+
             $dataSuplai = new $this->suplai;
             $dataSuplai->supplier_id = $data['supplier_id'];
             $dataSuplai->tanggal = Carbon::now();
@@ -169,16 +171,28 @@ class SupplierController extends Controller
             $dataSuplaiDetail->harga = $barang->harga;
             $dataSuplaiDetail->save();
 
-            $dataSuplaiGudang = new $this->barangGudang;
-            $dataSuplaiGudang->gudang_id = $data['gudang_id'];
-            $dataSuplaiGudang->save();
+            // check data barang in barang gudang detail
+            $existBarangGudang = $this->barangGudang->where('gudang_id',$data['gudang_id'])->first();
+            $existBarangGudangDetail = $this->barangGudangDetail->where('barang_id',$data['barang_id'])->first();
 
-            $dataSuplaiGudangDetail = new $this->barangGudangDetail;
-            $dataSuplaiGudangDetail->barang_gudang_id = $dataSuplaiGudang->id;
-            $dataSuplaiGudangDetail->barang_id = $data['barang_id'];
-            $dataSuplaiGudangDetail->qty = $data['kuantitas'];
-            $dataSuplaiGudangDetail->harga = $barang->harga;
-            $dataSuplaiGudangDetail->save();
+            if($existBarangGudang && $existBarangGudangDetail){
+                $barangGudangDetailUpdate = $this->barangGudangDetail::find($existBarangGudangDetail->id);
+
+                $barangGudangDetailUpdate->qty += $data['kuantitas'];
+                $barangGudangDetailUpdate->save();
+            }else{
+                $dataSuplaiGudang = new $this->barangGudang;
+                $dataSuplaiGudang->gudang_id = $data['gudang_id'];
+                $dataSuplaiGudang->save();
+
+                $dataSuplaiGudangDetail = new $this->barangGudangDetail;
+                $dataSuplaiGudangDetail->barang_gudang_id = $dataSuplaiGudang->id;
+                $dataSuplaiGudangDetail->barang_id = $data['barang_id'];
+                $dataSuplaiGudangDetail->qty = $data['kuantitas'];
+                $dataSuplaiGudangDetail->harga = $barang->harga;
+                $dataSuplaiGudangDetail->save();
+            }
+            
 
             return redirect('/admin/supplier/detail/'.$data['supplier_id']);
 

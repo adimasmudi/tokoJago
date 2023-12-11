@@ -63,10 +63,10 @@
                             @if(count($toko->produkToko) > 0)
                               @foreach($toko->produkToko as $detail)
                                 <tr>
-                                  <td>{{$detail->produkTokoDetail->first()->barang_id}}</td>
-                                  <td>{{$detail->produkTokoDetail->first()->barang->nama}}</td>
-                                  <td>{{$detail->produkTokoDetail->first()->qty}}</td>
-                                  <td>{{$detail->produkTokoDetail->first()->harga}}</td>
+                                  <td>{{$detail->produkTokoDetail->first()->barang_id ?? ""}}</td>
+                                  <td>{{$detail->produkTokoDetail->first()->barang->nama ?? ""}}</td>
+                                  <td>{{$detail->produkTokoDetail->first()->qty ?? ""}}</td>
+                                  <td>{{$detail->produkTokoDetail->first()->harga ?? ""}}</td>
                                 </tr>
                               @endforeach
                             @endif
